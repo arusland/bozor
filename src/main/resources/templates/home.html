@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" ng-app="bozorApp">
+<head>
+    <title>Bozor shopping list</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../stylesheets/main.css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../stylesheets/chosen.css" th:href="@{/css/chosen.css}"/>
+
+    <link href="#" th:href="@{/webjars/angularjs/1.2.25/angular-csp.css}"
+          rel="stylesheet" media="screen" />
+
+    <link href="#" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+    <link href="#" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap-theme.min.css}"
+          rel="stylesheet" media="screen" />
+</head>
+
+<body>
+<div ng-controller="MainController">
+    <div id="container">
+        <h1 th:text="#{home.shoplist}">Shopping list</h1>
+
+        <div class="alert alert-danger" ng-show="error">
+            <span th:text="#{home.loadFailed}">Loading failed.</span>
+            <a ng-click="repeatQuery()" th:text="#{home.repeatQuery}">Try again</a></div>
+
+        <div id="selector-placeholer">
+        </div>
+
+        <div id="pane">
+            <ul>
+                <li ng-repeat="item in items" ng-click="editItem(item)" ng-class="{bought:item.bought}">
+                    {{item.name}}
+                    <span class="comment" title="{{ getComment(item, false) }}">{{ getComment(item, true) }}</span>
+                    <span class="right"><a ng-click="removeItem(item)" th:title="#{home.itemRemoveTitle}">
+                        <span class="glyphicon glyphicon-remove"></span></a></span>
+                </li>
+            </ul>
+
+            <div class="total">
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="_whatelse" th:value="#{home.whatelse}"/>
+
+<script src="#" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+<script src="#" th:src="@{/js/chosen.jquery.min.js}"></script>
+
+
+<script src="#" th:src="@{/webjars/angularjs/1.2.25/angular.min.js}"></script>
+<script src="#" th:src="@{/webjars/angularjs/1.2.25/angular-route.min.js}"></script>
+<script src="#" th:src="@{/webjars/angularjs/1.2.25/angular-resource.min.js}"></script>
+<script src="#" th:src="@{/webjars/angular-ui-bootstrap/0.11.0-3/ui-bootstrap.min.js}"></script>
+<script src="#" th:src="@{/webjars/angular-ui-bootstrap/0.11.0-3/ui-bootstrap-tpls.min.js}"></script>
+
+<script src="#" th:src="@{/js/app/shared.js}"></script>
+<script src="#" th:src="@{/js/app/app.js}"></script>
+<script src="#" th:src="@{/js/app/mainController.js}"></script>
+<script src="#" th:src="@{/js/app/services.js}"></script>
+<script src="#" th:src="@{/js/app/dialogControllers.js}"></script>
+<script src="#" th:src="@{/js/app/dialogsSvc.js}"></script>
+<script src="#" th:src="@{/js/app/selectorPresenter.js}"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+insert into product(name, type) values ('Milk', 1)

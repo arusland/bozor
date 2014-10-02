@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mobile shopping list :: Bozor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../stylesheets/main.css" th:href="@{/stylesheets/main.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../stylesheets/bootstrap.min.css" th:href="@{/stylesheets/bootstrap.min.css}"/>
+</head>
+<body>
+<div id="main">
+    <table class="table table-condensed mobile">
+        <tr>
+            <th>Name</th>
+            <th class="operation-cell">Operation</th>
+            <th th:if="${showComments}">Amount</th>
+            <th th:if="${showComments}">Comment</th>
+        </tr>
+        <tr th:each="prod : ${items}">
+            <td><span th:class="'bought-' + ${prod.bought}" th:text="${prod.name}">Onions</span></td>
+            <td class="operation-cell">
+                <a class="btn btn-lg btn-primary" th:if="${prod.isBought() == false}" th:href="@{'/buy/' + ${prod.key}}" th:text="#{mobile.buy}">Buy</a>
+                <span th:if="${prod.isBought() == true}" th:text="#{mobile.bought}"></span>
+            </td>
+            <td th:text="${prod.amount}" th:if="${showComments}">12</td>
+            <td th:text="${prod.comment}" th:if="${showComments}">12</td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<div>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" th:text="#{show.today}">Today</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#20140821" id="prevDay" th:title="#{show.prevday}">
+                        <span class="glyphicon glyphicon-chevron-left nav-date"/></a></li>
+                    <li><a href="#20140823" id="nextDay" th:title="#{show.nextday}">
+                        <span class="glyphicon glyphicon-chevron-right nav-date"/></a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li id="selector-place"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <h3 class="text-center">{{ today }}
+            <span class="day-comment" ng-show="dayComment"> ({{ dayComment }})</span></h3>
+
+        <table class="table table-bordered table-row table-hover">
+            <thead>
+            <th th:text="#{show.itemname}" class="left-cell">Name</th>
+            <th th:text="#{show.itemamount}">Amount</th>
+            <th th:text="#{show.itemprice}" style="width: 50px;">Price</th>
+            <th th:text="#{show.itemstatus}" style="width: 60px;">Status</th>
+            <th style="width: 50px;"></th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in items">
+                <td><a href="#">{{item.name}}</a></td>
+                <td class="pull-center">{{item.amount}}</td>
+                <td class="pull-center">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" ng-model="item.price"/>
+                    </div>
+                </td>
+                <td class="pull-center" ng-hide="item.bought">
+                    <a href="#" onclick="return false;" ng-click="buyItem(item)" th:text="#{show.buy}">Buy</a></td>
+                <td class="pull-center" ng-show="item.bought" th:text="#{show.bought}">Bought</td>
+                <td class="pull-center"><a ng-click="editItem(item)" href="#" onclick="return false;"
+                       th:title="#{show.edit}"><span
+                        class="glyphicon glyphicon-pencil"/></a>
+
+                    <a ng-click="removeItem(item)" href="#" onclick="return false;"
+                       th:title="#{show.remove}"><span
+                            class="glyphicon glyphicon-remove"/></a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="left-cell"><b th:text="#{show.total}">Total</b></td>
+                <td colspan="3" class="left-cell"><b><span class="price-total">{{total()}}</span></b></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <input type="hidden" id="_today" th:value="#{show.today}"/>
+    <input type="hidden" id="_yesterday" th:value="#{show.yesterday}"/>
+    <input type="hidden" id="_tomorrow" th:value="#{show.tomorrow}"/>
+    <input type="hidden" id="_whatelse" th:value="#{show.whatelse}"/>
+
+    <script>
+        $('.dropdown-toggle').dropdown();
+    </script>
+</div>
