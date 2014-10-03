@@ -81,6 +81,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
 
         function onAddProductItem(parentId, name) {
             var item = {
+                name: name,
                 productId: parentId,
                 comment: null,
                 amount: null,

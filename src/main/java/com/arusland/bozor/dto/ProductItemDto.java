@@ -11,9 +11,7 @@ import java.util.List;
 /**
  * Created by ruslan on 02.10.2014.
  */
-public class ProductItemDto implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class ProductItemDto {
     private Long id;
     private Long productId;
     private Double price;

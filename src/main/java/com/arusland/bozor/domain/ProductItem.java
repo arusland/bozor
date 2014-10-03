@@ -9,9 +9,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="product_item")
-public class ProductItem implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class ProductItem  {
     @Id
     @GeneratedValue
     private Long id;

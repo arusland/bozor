@@ -31,7 +31,7 @@
 
         <div id="pane">
             <ul>
-                <li ng-repeat="item in items" ng-click="editItem(item)" ng-class="{bought:item.bought}">
+                <li ng-repeat="item in items | orderBy:'name'" ng-click="editItem(item)" ng-class="{bought:item.bought}">
                     {{item.name}}
                     <span class="comment" title="{{ getComment(item, false) }}">{{ getComment(item, true) }}</span>
                     <span class="right"><a ng-click="removeItem(item)" th:title="#{home.itemRemoveTitle}">
