@@ -22,7 +22,7 @@
     <div id="container">
         <h1 th:text="#{home.shoplist}">Shopping list</h1>
 
-        <div class="alert alert-danger" ng-show="error">
+        <div class="alert alert-danger" ng-show="error" ng-init="error=null">
             <span th:text="#{home.loadFailed}">Loading failed.</span>
             <a ng-click="repeatQuery()" th:text="#{home.repeatQuery}">Try again</a></div>
 

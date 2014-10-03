@@ -16,8 +16,12 @@ bozorApp.controller('MainController', [ '$scope', 'productSvc', '$modal', '$time
             $scope.$apply(handler);
         }
 
+        function canCheckStatus() {
+            return !dialogsSvc.isShown();
+        }
+
         $(document).ready(function () {
-              selectorPresenter.init('selector-placeholer', onNewItems, onNewItem, applyWrapper, handleError);
+              selectorPresenter.init('selector-placeholer', onNewItems, onNewItem, applyWrapper, handleError, canCheckStatus);
         });
 
         $scope.editItem = function (item) {

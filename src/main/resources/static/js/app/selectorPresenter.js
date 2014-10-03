@@ -9,10 +9,14 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
         var onNewItems;
         var inited = false;
         var currentProducts = null;
+        var canCheckStatus;
+        var WORK_MIN_TIMEOUT = 1000;
+        var WORK_TIMEOUT = 5000;
+        var WORK_MAX_TIMEOUT = 60000;
 
-        $timeout(onTimeout, 1000);
+        $timeout(onTimeout, WORK_MIN_TIMEOUT);
 
-        var init = function (id, _onNewItems, _onNewItem, applyWrapper, _handleError, _time) {
+        var init = function (id, _onNewItems, _onNewItem, applyWrapper, _handleError, _canCheckStatus, _time) {
             $('<select style="width:100%" id="selector" data-placeholder="' + strGetWhatelse() +
                 '" tabindex="1" multiple=""><option value=""></option></select>')
                 .appendTo($("#" + id));
@@ -35,16 +39,16 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
             onNewItem = _onNewItem;
             onNewItems = _onNewItems;
             time = _time || '';
+            canCheckStatus = _canCheckStatus || function() {return true;};
             lastToken = 0;
             inited = true;
         };
 
         function onTimeout(skipTimer) {
-            if (!inited) {
-
+            if (!inited || !canCheckStatus()) {
                 $timeout(function () {
                     onTimeout(skipTimer)
-                }, 1000);
+                }, WORK_MIN_TIMEOUT);
 
                 return;
             }
@@ -62,7 +66,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
                 }
 
                 if (!skipTimer) {
-                    $timeout(onTimeout, 5000);
+                    $timeout(onTimeout, WORK_TIMEOUT);
                 }
             }, handleError);
         };
@@ -122,7 +126,6 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
         };
 
         function handleError(error) {
-            //alert('Ошибка загрузки данных: ' + (error ? error.statusText : ''));
             error = (error ? error.statusText : '');
 
             if (!error) {
@@ -131,7 +134,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
 
             handleErrorCaller(error);
 
-            $timeout(onTimeout, 60000);
+            $timeout(onTimeout, WORK_MAX_TIMEOUT);
         };
 
         function repeatQuery() {

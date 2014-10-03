@@ -30,7 +30,7 @@ bozorApp.factory('dialogsSvc', ['$modal', 'productSvc', function ($modal, produc
         });
     };
 
-    var dialogIsShown = function(){
+    var isShown = function(){
         return _dialogIsShown;
     }
 
@@ -49,6 +49,6 @@ bozorApp.factory('dialogsSvc', ['$modal', 'productSvc', function ($modal, produc
 
     return {
         showItemEditDlg: showItemEditDlg,
-        dialogIsShown: dialogIsShown
+        isShown: isShown
     };
 }]);
