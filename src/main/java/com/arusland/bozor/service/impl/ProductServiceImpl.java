@@ -74,16 +74,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional(readOnly = false)
-    public ProductItem buyItem(Long id) {
+    public ProductItemDto buyItem(Long id) {
         ProductItem item = productItemRepository.getOne(id);
 
         if (item != null && item.getDate() == null) {
             statusManager.modifyItems();
             item.setDate(new Date());
 
-            return productItemRepository.save(item);
+            item = productItemRepository.save(item);
         }
 
-        return item;
+        return ProductItemDto.fromItem(item);
     }
 }

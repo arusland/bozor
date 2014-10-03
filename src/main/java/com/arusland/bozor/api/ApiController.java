@@ -88,4 +88,10 @@ public class ApiController {
             service.removeProductItem(id);
         }
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/buy/{itemId}", method = RequestMethod.POST)
+    public ProductItemDto buyItem(@PathVariable Long itemId) {
+        return service.buyItem(itemId);
+    }
 }

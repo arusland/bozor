@@ -14,4 +14,9 @@ public class HomeController {
     public String index(){
         return "home";
     }
+
+    @RequestMapping("/show")
+    public String show(){
+        return "show";
+    }
 }

@@ -5,7 +5,7 @@ bozorApp.config(function ($routeProvider) {
         .when('/d:time',
         {
             controller: 'ShowDayController',
-            templateUrl: '/partials/showByTime'
+            templateUrl: '/partials/showByDay'
         })
         .when('/m:month',
         {

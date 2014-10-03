@@ -24,5 +24,5 @@ public interface ProductService {
 
     List<Product> getProducts();
 
-    ProductItem buyItem(Long id);
+    ProductItemDto buyItem(Long id);
 }

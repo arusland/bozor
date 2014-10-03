@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface ProductItemRepository extends JpaRepository<ProductItem, Long> {
 
-    @Query("select c from ProductItem c where (c.date <= ?1 and c.date <= ?2) or ((c.date is null) and (1 = ?3))")
+    @Query("select c from ProductItem c where (c.date >= ?1 and c.date <= ?2) or ((c.date is null) and (1 = ?3))")
     List<ProductItem> getItemsBetweenDates(Date from, Date to, int isNew);
 }

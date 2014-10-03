@@ -42,22 +42,28 @@ var _shortMonthFormat = 'YYYYMM';
 
 function strGetWhatelse(){
     return $('#_whatelse').val();
-}
+};
 
 var formatShortDate = function(dt){
     return moment(dt).format(_shortDateFormat);
-}
+};
+
+var isToday = function(dt){
+    var todayStr = moment().format(_shortDateFormat);
+    var dayStr = dt.format(_shortDateFormat);
+
+    return dayStr === todayStr;
+};
 
 var dayComment = function(dt){
     var now = moment();
     var prevDay = now.clone().subtract(1, 'day').format(_shortDateFormat);
     var nextDay = now.clone().add(1, 'day').format(_shortDateFormat);
-    var todayStr = now.format(_shortDateFormat);
     var dayStr = dt.format(_shortDateFormat);
 
     var result = '';
 
-    if (dayStr === todayStr){
+    if (isToday(dt)){
         result = $('#_today').val();
     } else if (dayStr === prevDay)    {
         result = $('#_yesterday').val();
@@ -77,7 +83,7 @@ var arrayGetChanges = function (newArray, oldArray) {
         for (var j = 0; j < oldArray.length; j++) {
             var objOld = oldArray[j]
 
-            if (objNew.key == objOld.key) {
+            if (objNew.id == objOld.id) {
                 if (objNew.price != objOld.price
                     || objNew.comment != objOld.comment
                     || objNew.amount != objOld.amount) {
@@ -108,7 +114,7 @@ var productsAreDifferent = function (newArray, oldArray) {
         for (var j = 0; j < oldArray.length; j++) {
             var objOld = oldArray[j]
 
-            if (objNew.key == objOld.key) {
+            if (objNew.id == objOld.id) {
                 if (objNew.name != objOld.name
                     || objNew.type != objOld.type) {
                     return true;

@@ -68,6 +68,12 @@ public class ProductItemDto {
         this.comment = comment;
     }
 
+    public boolean isBought() {
+        return getDate() != null;
+    }
+
+    public void setBought(boolean value){}
+
     public ProductItem toItem(){
         ProductItem item = new ProductItem();
 
@@ -89,6 +95,7 @@ public class ProductItemDto {
         dto.setComment(item.getComment());
         dto.setPrice(item.getPrice());
         dto.setName(item.getProduct().getName());
+        dto.setDate(item.getDate());
 
         return dto;
     }

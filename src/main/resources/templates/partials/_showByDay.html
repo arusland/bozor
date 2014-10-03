@@ -1,7 +1,6 @@
 <div>
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <a class="navbar-brand" href="#" th:text="#{show.today}">Today</a>
             </div>
@@ -28,7 +27,7 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li id="selector-place"></li>
+                    <li ng-show="isToday" id="selector-place"></li>
                 </ul>
             </div>
         </div>
@@ -42,15 +41,15 @@
         <table class="table table-bordered table-row table-hover">
             <thead>
             <th th:text="#{show.itemname}" class="left-cell">Name</th>
-            <th th:text="#{show.itemamount}">Amount</th>
+            <th th:text="#{show.itemamountcomment}">Amount+comment</th>
             <th th:text="#{show.itemprice}" style="width: 50px;">Price</th>
             <th th:text="#{show.itemstatus}" style="width: 60px;">Status</th>
             <th style="width: 50px;"></th>
             </thead>
             <tbody>
-            <tr ng-repeat="item in items">
+            <tr ng-repeat="item in items | orderBy:'name'">
                 <td><a href="#">{{item.name}}</a></td>
-                <td class="pull-center">{{item.amount}}</td>
+                <td class="pull-center">{{itemComment(item)}}</td>
                 <td class="pull-center">
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" ng-model="item.price"/>
@@ -58,7 +57,8 @@
                 </td>
                 <td class="pull-center" ng-hide="item.bought">
                     <a href="#" onclick="return false;" ng-click="buyItem(item)" th:text="#{show.buy}">Buy</a></td>
-                <td class="pull-center" ng-show="item.bought" th:text="#{show.bought}">Bought</td>
+                <td class="pull-center" ng-show="item.bought">
+                    <span th:text="#{show.bought}" class="label label-success">Bought</span></td>
                 <td class="pull-center"><a ng-click="editItem(item)" href="#" onclick="return false;"
                        th:title="#{show.edit}"><span
                         class="glyphicon glyphicon-pencil"/></a>

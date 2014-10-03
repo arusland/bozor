@@ -2,8 +2,8 @@
 
 bozorApp.factory('productSvc', ['$resource', function ($resource) {
 
-    return $resource('/api/lits/products',
-        { itemId: '@id' }, {
+    return $resource('',
+        { }, {
             listProducts: {
                 url: '/api/products',
                 isArray: true,

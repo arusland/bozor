@@ -14,6 +14,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
 
         $scope.today = day.format('dddd, MMMM Do YYYY');
         $scope.dayComment = dayComment(day);
+        $scope.isToday = isToday(day);
 
         var prevDay = day.clone().subtract(1, 'day').format(_shortDateFormat);
         var nextDay = day.clone().add(1, 'day').format(_shortDateFormat);
@@ -21,25 +22,31 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
         $('#prevDay').attr('href', '#d' + prevDay);
         $('#nextDay').attr('href', '#d' + nextDay);
 
-        function onNewItems(newItems){
+        function onNewItems(newItems) {
             $scope.items = newItems;
             $scope.oldItems = arrayClone(newItems);
         }
 
         function onNewItem(newItem) {
-            $scope.items.push(newItem);
+            if ($scope.isToday) {
+                $scope.items.push(newItem);
+            }
         }
 
         function applyWrapper(handler) {
             $scope.$apply(handler);
         }
 
-        function handleError(error){
+        function handleError(error) {
             if (error)
                 alert(error);
         }
 
-        selectorPresenter.init('selector-place', onNewItems, onNewItem, applyWrapper, handleError, $routeParams.time);
+        function canCheckStatus() {
+            return !dialogsSvc.isShown();
+        }
+
+        selectorPresenter.init('selector-place', onNewItems, onNewItem, applyWrapper, handleError, canCheckStatus, $routeParams.time);
 
         $scope.$watch(
             "items",
@@ -106,14 +113,14 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
 
         $scope.removeItem = function (item) {
             $scope.items.remove(item);
-            productSvc.removeProductItem({itemKey: item.key}, function () {
+            productSvc.removeProductItem({itemKey: item.id}, function () {
             }, function () {
                 alert('Save item failed')
             });
         };
 
         $scope.buyItem = function (item) {
-            productSvc.buyProductItem({key: item.key}, function (itemSaved) {
+            productSvc.buyProductItem({key: item.id}, function (itemSaved) {
                     item.date = itemSaved.date;
                 },
                 function () {
@@ -121,6 +128,20 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
                 });
 
             item.bought = true;
+        };
+
+        $scope.itemComment = function (item) {
+            var result = item.amount || '';
+
+            if (item.comment) {
+                if (result) {
+                    result += ' ';
+                }
+
+                result += item.comment;
+            }
+
+            return result;
         };
 
         var parsePrice = function (price) {

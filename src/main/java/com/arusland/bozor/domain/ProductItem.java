@@ -57,10 +57,6 @@ public class ProductItem  {
         this.comment = comment;
     }
 
-    public boolean isBought() {
-        return getDate() != null;
-    }
-
     public Long getId() {
         return id;
     }

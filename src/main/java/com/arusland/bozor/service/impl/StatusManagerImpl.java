@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  */
 @Service
 public class StatusManagerImpl implements StatusManager {
-    private static Pattern TOKEN_PATTERN = Pattern.compile("([A-F\\d]{2})([A-F\\d]{2})");
+    private static Pattern TOKEN_PATTERN = Pattern.compile("([A-Fa-z\\d]{2})([A-Fa-z\\d]{2})");
     private static Object lock = new Object();
     private static byte itemsCounter = 1;
     private static byte productsCounter = 1;
