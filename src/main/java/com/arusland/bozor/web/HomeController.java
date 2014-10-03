@@ -1,14 +1,26 @@
 package com.arusland.bozor.web;
 
+import com.arusland.bozor.dto.ProductItemDto;
+import com.arusland.bozor.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.*;
 
 /**
  * Created by ruslan on 29.09.2014.
  */
 @Controller
 public class HomeController {
+    private final ProductService service;
+
+    @Autowired
+    public HomeController(ProductService service) {
+        this.service = service;
+    }
 
     @RequestMapping("/")
     public String index(){
@@ -18,5 +30,20 @@ public class HomeController {
     @RequestMapping("/show")
     public String show(){
         return "show";
+    }
+
+    @RequestMapping("/m")
+    public String mobile(Map<String, Object> model){
+        List<ProductItemDto> items = ProductItemDto.fromList(service.getProductItems(new Date(), true));
+        model.put("items", items);
+
+        return "mobile";
+    }
+
+    @RequestMapping("/buy/{id}")
+    public String mobileBuyItem(@PathVariable Long id){
+        service.buyItem(id);
+
+        return "redirect:/m";
     }
 }

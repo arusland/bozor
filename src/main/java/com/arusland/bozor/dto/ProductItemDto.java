@@ -4,9 +4,7 @@ import com.arusland.bozor.domain.Product;
 import com.arusland.bozor.domain.ProductItem;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by ruslan on 02.10.2014.
@@ -111,7 +109,7 @@ public class ProductItemDto {
             result.add(fromItem(item));
         }
 
-        return result;
+        return sort(result);
     }
 
     public String getName() {
@@ -120,5 +118,24 @@ public class ProductItemDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    private static List<ProductItemDto> sort(List<ProductItemDto> list){
+        Collections.sort(list, new Comparator<ProductItemDto>() {
+            @Override
+            public int compare(ProductItemDto o1, ProductItemDto o2) {
+                if (!(o1.isBought() ^ o2.isBought())) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+
+                if (o1.isBought()) {
+                    return 1;
+                }
+
+                return -1;
+            }
+        });
+
+        return list;
     }
 }

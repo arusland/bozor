@@ -3,10 +3,12 @@
 <head>
     <title>Mobile shopping list :: Bozor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+
     <link rel="stylesheet" type="text/css" media="all"
-          href="../../stylesheets/main.css" th:href="@{/stylesheets/main.css}"/>
-    <link rel="stylesheet" type="text/css" media="all"
-          href="../../stylesheets/bootstrap.min.css" th:href="@{/stylesheets/bootstrap.min.css}"/>
+          href="../../stylesheets/main.css" th:href="@{/css/main.css}"/>
+    <link href="#" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
 </head>
 <body>
 <div id="main">
@@ -20,7 +22,7 @@
         <tr th:each="prod : ${items}">
             <td><span th:class="'bought-' + ${prod.bought}" th:text="${prod.name}">Onions</span></td>
             <td class="operation-cell">
-                <a class="btn btn-lg btn-primary" th:if="${prod.isBought() == false}" th:href="@{'/buy/' + ${prod.key}}" th:text="#{mobile.buy}">Buy</a>
+                <a class="btn btn-lg btn-primary" th:if="${prod.isBought() == false}" th:href="@{'/buy/' + ${prod.id}}" th:text="#{mobile.buy}">Buy</a>
                 <span th:if="${prod.isBought() == true}" th:text="#{mobile.bought}"></span>
             </td>
             <td th:text="${prod.amount}" th:if="${showComments}">12</td>
