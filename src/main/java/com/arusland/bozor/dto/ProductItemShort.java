@@ -1,4 +1,6 @@
-package com.arusland.bozor.domain;
+package com.arusland.bozor.dto;
+
+import com.arusland.bozor.domain.ProductItem;
 
 /**
  * Created by ruslan on 11.09.2014.

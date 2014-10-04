@@ -1,5 +1,6 @@
-package com.arusland.bozor.domain;
+package com.arusland.bozor.dto;
 
+import com.arusland.bozor.domain.Product;
 import com.arusland.bozor.dto.ProductItemDto;
 
 import java.util.HashMap;

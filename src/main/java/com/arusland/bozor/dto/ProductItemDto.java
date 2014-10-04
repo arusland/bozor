@@ -1,9 +1,7 @@
 package com.arusland.bozor.dto;
 
-import com.arusland.bozor.domain.Product;
 import com.arusland.bozor.domain.ProductItem;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -66,6 +64,14 @@ public class ProductItemDto {
         this.comment = comment;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public boolean isBought() {
         return getDate() != null;
     }
@@ -112,12 +118,8 @@ public class ProductItemDto {
         return sort(result);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public static ProductItemShort toDtoShort(ProductItem item) {
+        return new ProductItemShort(item.getProduct().getName(), item.getPrice());
     }
 
     private static List<ProductItemDto> sort(List<ProductItemDto> list){

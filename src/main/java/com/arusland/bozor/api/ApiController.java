@@ -1,17 +1,15 @@
 package com.arusland.bozor.api;
 
-import com.arusland.bozor.domain.Product;
-import com.arusland.bozor.domain.ProductItem;
-import com.arusland.bozor.domain.Status;
-import com.arusland.bozor.dto.ProductItemDto;
+import com.arusland.bozor.domain.*;
+import com.arusland.bozor.dto.*;
 import com.arusland.bozor.service.ProductService;
 import com.arusland.bozor.service.StatusManager;
-import com.arusland.bozor.dto.StatusResult;
 import com.arusland.bozor.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -56,12 +54,31 @@ public class ApiController {
         return status;
     }
 
-    @ResponseBody
-    @RequestMapping("/items/{time}")
+
     public List<ProductItem> getItems(@PathVariable String time) {
         Date parsedTime = DateUtils.parseTime(time);
 
         return service.getProductItems(parsedTime, true);
+    }
+
+    @ResponseBody
+    @RequestMapping("/itemsMonth/{month}")
+    public List<StatusMonth> getItemsByMonth(@PathVariable String month)
+    {
+        Date monthParsed = DateUtils.parseMonth(month);
+        Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
+        Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
+        List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false);
+        List<StatusMonth> result = new LinkedList<>();
+
+        for (ProductItem item : productItems){
+            String key = DateUtils.toStringShort(item.getDate());
+            StatusMonth status = getOrCreateStatus(result, key);
+
+            status.getItems().add(ProductItemDto.toDtoShort(item));
+        }
+
+        return result;
     }
 
     @ResponseBody
@@ -93,5 +110,20 @@ public class ApiController {
     @RequestMapping(value = "/buy/{itemId}", method = RequestMethod.POST)
     public ProductItemDto buyItem(@PathVariable Long itemId) {
         return service.buyItem(itemId);
+    }
+
+    private static StatusMonth getOrCreateStatus(List<StatusMonth> list, String key)
+    {
+        for (int i = 0;i < list.size();i++){
+            if (key.equals(list.get(i).getDay())){
+                return list.get(i);
+            }
+        }
+
+        StatusMonth status = new StatusMonth(key, new LinkedList<ProductItemShort>());
+
+        list.add(status);
+
+        return status;
     }
 }

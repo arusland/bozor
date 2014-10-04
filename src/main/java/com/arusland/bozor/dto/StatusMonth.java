@@ -1,6 +1,4 @@
-package com.arusland.bozor.domain;
-
-
+package com.arusland.bozor.dto;
 
 import java.util.List;
 

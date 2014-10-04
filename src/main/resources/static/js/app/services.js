@@ -16,7 +16,7 @@ bozorApp.factory('productSvc', ['$resource', function ($resource) {
                 method: 'GET'
             },
             listMonthItems: {
-                url: '/api/list/itemsMonth/:month',
+                url: '/api/itemsMonth/:month',
                 params: { month: '@month' },
                 isArray: true,
                 method: 'GET'
