@@ -28,9 +28,12 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
         }
 
         function onNewItem(newItem) {
-            if ($scope.isToday) {
-                $scope.items.push(newItem);
+            if (!$scope.isToday) {
+                newItem.date = day.format(_longDateFormat);
+                newItem.bought = true;
             }
+
+            $scope.items.push(newItem);
         }
 
         function applyWrapper(handler) {
@@ -46,7 +49,8 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
             return !dialogsSvc.isShown();
         }
 
-        selectorPresenter.init('selector-place', onNewItems, onNewItem, applyWrapper, handleError, canCheckStatus, $routeParams.time);
+        selectorPresenter.init('selector-place', onNewItems, onNewItem, applyWrapper,
+            handleError, canCheckStatus, $routeParams.time);
 
         $scope.$watch(
             "items",
@@ -142,11 +146,5 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
             }
 
             return result;
-        };
-
-        var parsePrice = function (price) {
-            var result = parseFloat(price);
-
-            return isNaN(result) ? 0 : result;
         };
     }]);

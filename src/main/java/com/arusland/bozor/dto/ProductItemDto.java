@@ -1,6 +1,8 @@
 package com.arusland.bozor.dto;
 
 import com.arusland.bozor.domain.ProductItem;
+import com.arusland.bozor.util.DateUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.*;
 
@@ -11,10 +13,10 @@ public class ProductItemDto {
     private Long id;
     private Long productId;
     private Double price;
-    private Date date;
     private Double amount;
     private String comment;
     private String name;
+    private String date;
 
     public Long getId() {
         return id;
@@ -40,11 +42,11 @@ public class ProductItemDto {
         this.price = price;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -82,7 +84,7 @@ public class ProductItemDto {
         ProductItem item = new ProductItem();
 
         item.setId(getId());
-        item.setDate(getDate());
+        item.setDate(getDate() != null ? DateUtils.parseFull(getDate()) : null);
         item.setAmount(getAmount());
         item.setComment(getComment());
         item.setPrice(getPrice());
@@ -99,7 +101,7 @@ public class ProductItemDto {
         dto.setComment(item.getComment());
         dto.setPrice(item.getPrice());
         dto.setName(item.getProduct().getName());
-        dto.setDate(item.getDate());
+        dto.setDate(item.getDate() != null ? DateUtils.toStringFull(item.getDate()): null);
 
         return dto;
     }

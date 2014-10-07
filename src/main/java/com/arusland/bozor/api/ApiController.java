@@ -89,7 +89,7 @@ public class ApiController {
 
     @ResponseBody
     @RequestMapping(value = "/item", method = RequestMethod.POST)
-    public ProductItemDto updateItem(@RequestBody ProductItemDto item) {
+    public ProductItemDto updateItem(@RequestBody ProductItemDto item){
         return ProductItemDto.fromItem(service.save(item));
     }
 

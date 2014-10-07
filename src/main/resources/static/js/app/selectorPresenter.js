@@ -14,7 +14,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
         var WORK_TIMEOUT = 5000;
         var WORK_MAX_TIMEOUT = 60000;
 
-        $timeout(onTimeout, WORK_MIN_TIMEOUT);
+        $timeout(onTimeout, WORK_TIMEOUT);
 
         var init = function (id, _onNewItems, _onNewItem, applyWrapper, _handleError, _canCheckStatus, _time) {
             $('<select style="width:100%" id="selector" data-placeholder="' + strGetWhatelse() +
@@ -41,7 +41,9 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
             time = _time || '';
             canCheckStatus = _canCheckStatus || function() {return true;};
             lastToken = 0;
+            currentProducts = null;
             inited = true;
+            repeatQuery();
         };
 
         function onTimeout(skipTimer) {
@@ -105,6 +107,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
                     .end();
 
                 if (data) {
+
                     angular.forEach(data, function (value, key) {
                         selector.append($("<option></option>")
                             .attr("value", value.id)
@@ -145,6 +148,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
 
         function reset(){
             lastToken = 0;
+            currentProducts = null;
         };
 
         return {

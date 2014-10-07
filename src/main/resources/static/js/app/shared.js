@@ -133,3 +133,9 @@ var productsAreDifferent = function (newArray, oldArray) {
 
     return false;
 };
+
+var parsePrice = function (price) {
+    var result = parseFloat(price);
+
+    return isNaN(result) ? 0 : result;
+};

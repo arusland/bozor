@@ -27,7 +27,7 @@ public final class DateUtils {
         return DF_SHORT.format(date);
     }
 
-    public static Date parse(String str) {
+    public static Date parseFull(String str) {
         try {
             return DF_FULL.parse(str);
         } catch (ParseException e) {
