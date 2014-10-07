@@ -3,26 +3,21 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <a class="navbar-brand" href="#" th:text="#{show.today}">Today</a>
+                <span class="navbar-brand">{{ monthName}}</span>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li><a href="#20140821" id="prevDay" th:title="#{show.prevday}">
+                    <li><a href="#20140821" id="prevDay" th:title="#{show.prevmonth}">
                         <span class="glyphicon glyphicon-chevron-left nav-date"/></a></li>
-                    <li><a href="#20140823" id="nextDay" th:title="#{show.nextday}">
+                    <li><a href="#20140823" id="nextDay" th:title="#{show.nextmonth}">
                         <span class="glyphicon glyphicon-chevron-right nav-date"/></a></li>
+
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{show.navigation}">Navigation</span><span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
+                            <li ng-repeat="cmd in commands"><a href="{{cmd.link}}">{{cmd.name}}</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -35,15 +30,17 @@
     </nav>
 
     <div class="container">
+
         <table ng-repeat="item in items">
-            <thead>
-                <th th:text="#{show.itemname}" class="left-cell">Name</th>
-                <th th:text="#{show.itemprice}" style="width: 50px;">Price</th>
-            </thead>
+            <caption>{{item.day}}</caption>
             <tbody>
             <tr ng-repeat="child in item.items">
                 <td>{{child.name}}</td>
                 <td>{{child.price}}</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>{{totalPrice(item)}}</td>
             </tr>
             </tbody>
         </table>

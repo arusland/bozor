@@ -12,9 +12,10 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
             $routeParams.time = day.format(_shortDateFormat);
         }
 
-        $scope.today = day.format('dddd, MMMM Do YYYY');
+        $scope.today = day.format('dddd, MMMM Do YYYY').capitalize();
         $scope.dayComment = dayComment(day);
         $scope.isToday = isToday(day);
+        $scope.commands = getMonthCommands(day);
 
         var prevDay = day.clone().subtract(1, 'day').format(_shortDateFormat);
         var nextDay = day.clone().add(1, 'day').format(_shortDateFormat);

@@ -10,27 +10,64 @@ Array.prototype.remove = function (item) {
     }
 };
 
-String.prototype.startsWith = function (str){
+String.prototype.startsWith = function (str) {
     return this.indexOf(str) == 0;
 };
 
-var stringIsBlank = function(str){
-  return str == null || str == '';
+String.prototype.format = function () {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function (match, number) {
+        return typeof args[number] != 'undefined'
+            ? args[number]
+            : match
+            ;
+    });
 };
 
-var stringIsNotBlank = function(str){
+String.prototype.zerofy = function (length) {
+    var lhs = this;
+
+    while (lhs.length < length) {
+        lhs = "0" + lhs;
+    }
+
+    return lhs;
+};
+
+String.prototype.capitalize = function () {
+
+    if (this.length > 1) {
+        return this.substring(0, 1).toUpperCase() + this.substring(1);
+    }
+
+    if (this.length == 1) {
+        this.toUpperCase();
+    }
+
+    return this;
+};
+
+function zerofy(value, length) {
+    return value.toString().zerofy(length);
+};
+
+var stringIsBlank = function (str) {
+    return str == null || str == '';
+};
+
+var stringIsNotBlank = function (str) {
     return !stringIsBlank(str);
 };
 
-var stringGetShort = function(str, length){
-    if (stringIsNotBlank(str) && str.length > length){
+var stringGetShort = function (str, length) {
+    if (stringIsNotBlank(str) && str.length > length) {
         str = str.substring(0, length) + "...";
     }
 
     return str;
 };
 
-var arrayClone = function(arr){
+var arrayClone = function (arr) {
     var result = JSON.parse(JSON.stringify(arr));
 
     return result;
@@ -40,22 +77,22 @@ var _longDateFormat = 'YYYYMMDDHHmmss';
 var _shortDateFormat = 'YYYYMMDD';
 var _shortMonthFormat = 'YYYYMM';
 
-function strGetWhatelse(){
+function strGetWhatelse() {
     return $('#_whatelse').val();
 };
 
-var formatShortDate = function(dt){
+var formatShortDate = function (dt) {
     return moment(dt).format(_shortDateFormat);
 };
 
-var isToday = function(dt){
+var isToday = function (dt) {
     var todayStr = moment().format(_shortDateFormat);
     var dayStr = dt.format(_shortDateFormat);
 
     return dayStr === todayStr;
 };
 
-var dayComment = function(dt){
+var dayComment = function (dt) {
     var now = moment();
     var prevDay = now.clone().subtract(1, 'day').format(_shortDateFormat);
     var nextDay = now.clone().add(1, 'day').format(_shortDateFormat);
@@ -63,11 +100,11 @@ var dayComment = function(dt){
 
     var result = '';
 
-    if (isToday(dt)){
+    if (isToday(dt)) {
         result = $('#_today').val();
-    } else if (dayStr === prevDay)    {
+    } else if (dayStr === prevDay) {
         result = $('#_yesterday').val();
-    } else if (dayStr === nextDay){
+    } else if (dayStr === nextDay) {
         result = $('#_tomorrow').val();
     }
 
@@ -99,11 +136,11 @@ var arrayGetChanges = function (newArray, oldArray) {
 };
 
 var productsAreDifferent = function (newArray, oldArray) {
-    if (!newArray || !oldArray){
+    if (!newArray || !oldArray) {
         return true;
     }
 
-    if (newArray.length != oldArray.length){
+    if (newArray.length != oldArray.length) {
         return true;
     }
 
@@ -126,7 +163,7 @@ var productsAreDifferent = function (newArray, oldArray) {
             }
         }
 
-        if (!found){
+        if (!found) {
             return true;
         }
     }
@@ -138,4 +175,26 @@ var parsePrice = function (price) {
     var result = parseFloat(price);
 
     return isNaN(result) ? 0 : result;
+};
+
+function getMonthName(mmt, index) {
+    var year = mmt.format("YYYY");
+
+    if (typeof index === "number") {
+        mmt = moment(year + zerofy(index, 2) + "01", _shortDateFormat);
+    }
+
+    return mmt.format("MMMM").capitalize() + " (" + year + ")";
+};
+
+function getMonthCommands(day) {
+    day = day || moment();
+    var commands = [];
+    var year = day.format("YYYY");
+
+    for (var i = 1; i <= 12; i++) {
+        commands.push({name: getMonthName(day, i), link: '#m' + year + zerofy(i, 2)});
+    }
+
+    return commands;
 };
