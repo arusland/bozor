@@ -18,18 +18,18 @@ public class ProductItem  {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    private Double price;
+    private String price;
     private Date date;
     private Double amount;
     private String comment;
 
     public ProductItem() { }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

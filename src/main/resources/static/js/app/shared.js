@@ -177,14 +177,18 @@ var parsePrice = function (price) {
     return isNaN(result) ? 0 : result;
 };
 
-function getMonthName(mmt, index) {
+function getMonthName(mmt, index, skipYear) {
     var year = mmt.format("YYYY");
 
     if (typeof index === "number") {
         mmt = moment(year + zerofy(index, 2) + "01", _shortDateFormat);
     }
 
-    return mmt.format("MMMM").capitalize() + " (" + year + ")";
+    if (skipYear !== true) {
+        return mmt.format("MMMM").capitalize() + " (" + year + ")";
+    }
+
+    return mmt.format("MMMM").capitalize();
 };
 
 function getMonthCommands(day) {

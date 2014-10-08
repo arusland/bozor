@@ -12,7 +12,7 @@ import java.util.*;
 public class ProductItemDto {
     private Long id;
     private Long productId;
-    private Double price;
+    private String price;
     private Double amount;
     private String comment;
     private String name;
@@ -34,11 +34,11 @@ public class ProductItemDto {
         this.productId = productId;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

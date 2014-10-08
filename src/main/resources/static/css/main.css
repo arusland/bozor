@@ -145,3 +145,30 @@ td.operation-cell, th.operation-cell {
 table.mobile {
     font-size: 20px;
 }
+
+div.month-table-container {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    vertical-align: top;
+    background-color: #6AA6C8;
+}
+
+table.month-table {
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+table.month-table caption {
+    font-weight: bold;
+}
+
+
+table.month-table td {
+    border: 1px solid black;
+    padding: 3px;
+}

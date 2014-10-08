@@ -7,9 +7,9 @@ import com.arusland.bozor.domain.ProductItem;
  */
 public class ProductItemShort {
     private String name;
-    private Double price;
+    private String price;
 
-    public ProductItemShort(String name, Double price) {
+    public ProductItemShort(String name, String price) {
         this.name = name;
         this.price = price;
     }
@@ -22,11 +22,11 @@ public class ProductItemShort {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

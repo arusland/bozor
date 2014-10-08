@@ -36,4 +36,10 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
 
             return total;
         }
+
+        $scope.dayName = function (dayStr) {
+            var mmt = moment(dayStr, _shortDateFormat);
+
+            return mmt.format("D");
+        }
     }]);
