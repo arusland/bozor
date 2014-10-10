@@ -31,7 +31,7 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
             var total = 0;
 
             angular.forEach(item.items, function (s) {
-                total += parsePrice(s.price);
+                total += calcExpression(s.price);
             });
 
             return total;

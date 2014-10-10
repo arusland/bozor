@@ -42,29 +42,30 @@
             </thead>
             <tbody>
             <tr ng-repeat="item in items | orderBy:'name'">
-                <td><a href="#">{{item.name}}</a></td>
+                <td><a href="#" tabindex="-1">{{item.name}}</a></td>
                 <td class="pull-center">{{itemComment(item)}}</td>
                 <td class="pull-center">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" ng-model="item.price"/>
+                    <div class="input-group input-group-sm {{validatePrice(item)}}">
+                        <input type="text" class="form-control" ng-model="item.price" title="{{calcPrice(item)}}"/>
                     </div>
                 </td>
                 <td class="pull-center" ng-hide="item.bought">
-                    <a href="#" onclick="return false;" ng-click="buyItem(item)" th:text="#{show.buy}">Buy</a></td>
+                    <a href="#" onclick="return false;" ng-click="buyItem(item)" tabindex="-1"
+                       th:text="#{show.buy}">Buy</a></td>
                 <td class="pull-center" ng-show="item.bought">
                     <span th:text="#{show.bought}" class="label label-success">Bought</span></td>
-                <td class="pull-center"><a ng-click="editItem(item)" href="#" onclick="return false;"
+                <td class="pull-center"><a ng-click="editItem(item)" href="#" tabindex="-1" onclick="return false;"
                        th:title="#{show.edit}"><span
                         class="glyphicon glyphicon-pencil"/></a>
 
-                    <a ng-click="removeItem(item)" href="#" onclick="return false;"
+                    <a ng-click="removeItem(item)" href="#" tabindex="-1" onclick="return false;"
                        th:title="#{show.remove}"><span
                             class="glyphicon glyphicon-remove"/></a>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" class="left-cell"><b th:text="#{show.total}">Total</b></td>
-                <td colspan="3" class="left-cell"><b><span class="price-total">{{total()}}</span></b></td>
+                <td colspan="3" class="left-cell price-total">{{total()}}</td>
             </tr>
             </tbody>
         </table>
@@ -74,6 +75,7 @@
     <input type="hidden" id="_yesterday" th:value="#{show.yesterday}"/>
     <input type="hidden" id="_tomorrow" th:value="#{show.tomorrow}"/>
     <input type="hidden" id="_whatelse" th:value="#{show.whatelse}"/>
+    <input type="hidden" id="_invalidexp" th:value="#{show.invalidexp}"/>
 
     <script>
         $('.dropdown-toggle').dropdown();

@@ -115,6 +115,7 @@ div.total span {
 
 .price-total {
     color: blue;
+    font-weight: bold;
 }
 
 .day-comment {
@@ -166,7 +167,6 @@ table.month-table {
 table.month-table caption {
     font-weight: bold;
 }
-
 
 table.month-table td {
     border: 1px solid black;

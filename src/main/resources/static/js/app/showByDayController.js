@@ -24,8 +24,10 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
         $('#nextDay').attr('href', '#d' + nextDay);
 
         function onNewItems(newItems) {
-            $scope.items = newItems;
-            $scope.oldItems = arrayClone(newItems);
+            if (itemsAreDifferent(newItems, $scope.oldItems)) {
+                $scope.items = newItems;
+                $scope.oldItems = arrayClone(newItems);
+            }
         }
 
         function onNewItem(newItem) {
@@ -106,10 +108,18 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
             var total = 0;
 
             angular.forEach($scope.items, function (s) {
-                total += parsePrice(s.price);
+                total += calcExpression(s.price);
             });
 
             return total;
+        };
+
+        $scope.calcPrice = function(item){
+            return calcExpressionWithError(item.price) || $('#_invalidexp').val();
+        };
+
+        $scope.validatePrice = function(item){
+            return isExpressionValid(item.price) ? '' : 'has-error';
         };
 
         $scope.editItem = function (item) {

@@ -171,6 +171,44 @@ var productsAreDifferent = function (newArray, oldArray) {
     return false;
 };
 
+var itemsAreDifferent = function (newArray, oldArray) {
+    if (!newArray || !oldArray) {
+        return true;
+    }
+
+    if (newArray.length != oldArray.length) {
+        return true;
+    }
+
+    for (var i = 0; i < newArray.length; i++) {
+        var objNew = newArray[i];
+        var found = false;
+
+        for (var j = 0; j < oldArray.length; j++) {
+            var objOld = oldArray[j]
+
+            if (objNew.id === objOld.id) {
+                if (objNew.price !== objOld.price
+                    || objNew.date !== objOld.date
+                    || objNew.amount !== objOld.amount
+                    || objNew.comment !== objOld.comment
+                    || objNew.productId !== objOld.productId) {
+                    return true;
+                }
+
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
 var parsePrice = function (price) {
     var result = parseFloat(price);
 
