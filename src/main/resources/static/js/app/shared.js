@@ -235,7 +235,7 @@ function getMonthCommands(day) {
     var year = day.format("YYYY");
 
     for (var i = 1; i <= 12; i++) {
-        commands.push({name: getMonthName(day, i), link: '#m' + year + zerofy(i, 2)});
+        commands.push({name: getMonthName(day, i, true), link: '#m' + year + zerofy(i, 2)});
     }
 
     return commands;

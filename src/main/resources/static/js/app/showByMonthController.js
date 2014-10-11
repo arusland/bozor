@@ -27,6 +27,12 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
             alert('Load items failed')
         });
 
+        $scope.dayName = function (dayStr) {
+            var mmt = moment(dayStr, _shortDateFormat);
+
+            return mmt.format("D");
+        };
+
         $scope.totalPrice = function(item){
             var total = 0;
 
@@ -35,11 +41,15 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
             });
 
             return total;
-        }
+        };
 
-        $scope.dayName = function (dayStr) {
-            var mmt = moment(dayStr, _shortDateFormat);
+        $scope.calcMonthPrice = function(){
+            var total = 0;
 
-            return mmt.format("D");
-        }
+            angular.forEach($scope.items, function (s) {
+                total += $scope.totalPrice(s);
+            });
+
+            return total;
+        };
     }]);

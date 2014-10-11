@@ -140,11 +140,11 @@ td.right-cell, th.right-cell {
 }
 
 td.operation-cell, th.operation-cell {
-    width: 12%;
+    width: 22%;
 }
 
 table.mobile {
-    font-size: 20px;
+    font-size: 30px;
 }
 
 div.month-table-container {
@@ -162,6 +162,7 @@ div.month-table-container {
 table.month-table {
     border-collapse: collapse;
     background-color: #ffffff;
+    min-width: 140px;
 }
 
 table.month-table caption {
@@ -171,4 +172,25 @@ table.month-table caption {
 table.month-table td {
     border: 1px solid black;
     padding: 3px;
+}
+
+.month-price {
+    padding: 15px;
+    float: left;
+}
+
+.body-nav {
+    padding-top: 60px;
+}
+
+.main-container {
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+a.red {
+    color: #d14;
 }

@@ -1,5 +1,5 @@
 <div>
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#" th:text="#{show.today}">Today</a>
@@ -27,8 +27,7 @@
         </div>
     </nav>
 
-    <div class="container">
-
+    <div class="main-container">
         <h3 class="text-center">{{ today }}
             <span class="day-comment" ng-show="dayComment"> ({{ dayComment }})</span></h3>
 
@@ -59,8 +58,7 @@
                         class="glyphicon glyphicon-pencil"/></a>
 
                     <a ng-click="removeItem(item)" href="#" tabindex="-1" onclick="return false;"
-                       th:title="#{show.remove}"><span
-                            class="glyphicon glyphicon-remove"/></a>
+                       th:title="#{show.remove}" class="red"><span class="glyphicon glyphicon-remove"/></a>
                 </td>
             </tr>
             <tr>

@@ -2,11 +2,11 @@ package com.arusland.bozor.web;
 
 import com.arusland.bozor.dto.ProductItemDto;
 import com.arusland.bozor.service.ProductService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 
@@ -36,6 +36,7 @@ public class HomeController {
     public String mobile(Map<String, Object> model){
         List<ProductItemDto> items = ProductItemDto.fromList(service.getProductItems(new Date(), true));
         model.put("items", items);
+        model.put("showComments", hasComments(items));
 
         return "mobile";
     }
@@ -45,5 +46,16 @@ public class HomeController {
         service.buyItem(id);
 
         return "redirect:/m";
+    }
+
+    private boolean hasComments(List<ProductItemDto> items) {
+        for (ProductItemDto item : items) {
+            if (StringUtils.isNotBlank(item.getComment())
+                    || item.getAmount() != null) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

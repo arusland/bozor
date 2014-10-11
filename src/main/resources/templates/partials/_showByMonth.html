@@ -1,5 +1,5 @@
 <div>
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -14,12 +14,17 @@
                         <span class="glyphicon glyphicon-chevron-right nav-date"/></a></li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{show.navigation}">Navigation</span><span
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                                th:text="#{show.navigation}">Navigation</span><span
                                 class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li ng-repeat="cmd in commands"><a href="{{cmd.link}}">{{cmd.name}}</a></li>
                         </ul>
+                    </li>
+
+                    <li>
+                        <span class="month-price price-total">Итого: {{calcMonthPrice()}}</span>
                     </li>
                 </ul>
 
@@ -30,7 +35,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="main-container">
         <div ng-repeat="item in items | orderBy:'day'" class="month-table-container">
             <table class="month-table">
                 <caption><a href="#d{{item.day}}">{{dayName(item.day)}}</a></caption>
