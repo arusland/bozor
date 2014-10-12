@@ -13,7 +13,7 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
         }
 
         $scope.monthName = getMonthName(month);
-        $scope.commands = getMonthCommands(month);
+        $scope.commands = getMonthCommands(month, 'm');
 
         var prevMonth = month.clone().subtract(1, 'month').format(_shortMonthFormat);
         var nextMonth = month.clone().add(1, 'month').format(_shortMonthFormat);

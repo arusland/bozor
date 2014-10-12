@@ -85,6 +85,10 @@ var formatShortDate = function (dt) {
     return moment(dt).format(_shortDateFormat);
 };
 
+var formatShortMonth = function (dt) {
+    return moment(dt).format(_shortMonthFormat);
+};
+
 var isToday = function (dt) {
     var todayStr = moment().format(_shortDateFormat);
     var dayStr = dt.format(_shortDateFormat);
@@ -229,13 +233,13 @@ function getMonthName(mmt, index, skipYear) {
     return mmt.format("MMMM").capitalize();
 };
 
-function getMonthCommands(day) {
+function getMonthCommands(day, linkPrefix) {
     day = day || moment();
     var commands = [];
     var year = day.format("YYYY");
 
     for (var i = 1; i <= 12; i++) {
-        commands.push({name: getMonthName(day, i, true), link: '#m' + year + zerofy(i, 2)});
+        commands.push({name: getMonthName(day, i, true), link: '#' + linkPrefix + year + zerofy(i, 2)});
     }
 
     return commands;

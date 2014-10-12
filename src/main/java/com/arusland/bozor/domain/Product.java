@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by ruslan on 21.07.2014.
  */
 @Entity
-@Table(name="product")
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue
@@ -19,7 +19,8 @@ public class Product {
     @Column(nullable = false)
     private long type;
 
-    public Product(){}
+    public Product() {
+    }
 
     public String getName() {
         return name;
@@ -43,5 +44,14 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object rhs) {
+        if (rhs == null || !(rhs instanceof Product) || getId() == null) {
+            return false;
+        }
+
+        return getId().equals(((Product) rhs).getId());
     }
 }

@@ -15,7 +15,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
         $scope.today = day.format('dddd, MMMM Do YYYY').capitalize();
         $scope.dayComment = dayComment(day);
         $scope.isToday = isToday(day);
-        $scope.commands = getMonthCommands(day);
+        $scope.commands = getMonthCommands(day, 'm');
 
         var prevDay = day.clone().subtract(1, 'day').format(_shortDateFormat);
         var nextDay = day.clone().add(1, 'day').format(_shortDateFormat);

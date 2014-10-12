@@ -1,13 +1,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" ng-app="bozorApp">
 <head>
-    <title>Bozor shopping list</title>
+    <title>Charts :: Bozor shopping list</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" type="text/css" media="all"
           href="../../stylesheets/main.css" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" type="text/css" media="all"
-          href="../../stylesheets/chosen.css" th:href="@{/css/chosen.css}"/>
     <link href="#" th:href="@{/webjars/angularjs/1.2.25/angular-csp.css}"
           rel="stylesheet" media="screen" />
     <link href="#" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
@@ -19,7 +17,6 @@
 <div ng-view=""></div>
 
 <script src="#" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
-<script src="#" th:src="@{/js/chosen.jquery.min.js}"></script>
 <script src="#" th:src="@{/js/moment-with-locales.min.js}"></script>
 <script src="#" th:src="@{/webjars/angularjs/1.2.25/angular.min.js}"></script>
 <script src="#" th:src="@{/webjars/angularjs/1.2.25/angular-route.min.js}"></script>
@@ -27,16 +24,27 @@
 <script src="#" th:src="@{/webjars/angular-ui-bootstrap/0.11.0-3/ui-bootstrap.min.js}"></script>
 <script src="#" th:src="@{/webjars/angular-ui-bootstrap/0.11.0-3/ui-bootstrap-tpls.min.js}"></script>
 <script src="#" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script src="#" th:src="@{/js/highcharts/highcharts.js}"></script>
+<script src="#" th:src="@{/js/highcharts/exporting.js}"></script>
 
 <script src="#" th:src="@{/js/app/shared.js}"></script>
 <script src="#" th:src="@{/js/app/app.js}"></script>
 <script src="#" th:src="@{/js/app/services.js}"></script>
-<script src="#" th:src="@{/js/app/dialogControllers.js}"></script>
-<script src="#" th:src="@{/js/app/dialogsSvc.js}"></script>
-<script src="#" th:src="@{/js/app/selectorPresenter.js}"></script>
-<script src="#" th:src="@{/js/app/showByDayController.js}"></script>
-<script src="#" th:src="@{/js/app/showByMonthController.js}"></script>
-<script src="#" th:src="@{/js/app/showConfig.js}"></script>
-<script src="#" th:src="@{/js/app/expressions.js}"></script>
+<script src="#" th:src="@{/js/app/chartConfig.js}"></script>
+<script src="#" th:src="@{/js/app/pieChartByMonthController.js}"></script>
+
+<script type="text/javascript">
+    $(function () {
+    // Radialize the colors
+    Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+        return {
+            radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+            stops: [
+                [0, color],
+                [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+            ]
+        };
+    });});
+</script>
 </body>
 </html>

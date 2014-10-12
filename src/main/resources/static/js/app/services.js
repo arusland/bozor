@@ -21,6 +21,12 @@ bozorApp.factory('productSvc', ['$resource', function ($resource) {
                 isArray: true,
                 method: 'GET'
             },
+            getPieChartDataByMonth: {
+                url: '/api/chart/pm/:month',
+                params: { month: '@month' },
+                isArray: true,
+                method: 'GET'
+            },
             saveProduct: {
                 url: '/api/product',
                 method: 'POST'

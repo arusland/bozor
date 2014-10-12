@@ -32,6 +32,11 @@ public class HomeController {
         return "show";
     }
 
+    @RequestMapping("/chart")
+    public String chart(){
+        return "chart";
+    }
+
     @RequestMapping("/m")
     public String mobile(Map<String, Object> model){
         List<ProductItemDto> items = ProductItemDto.fromList(service.getProductItems(new Date(), true));

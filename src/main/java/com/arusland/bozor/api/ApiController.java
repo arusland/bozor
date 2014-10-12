@@ -5,12 +5,11 @@ import com.arusland.bozor.dto.*;
 import com.arusland.bozor.service.ProductService;
 import com.arusland.bozor.service.StatusManager;
 import com.arusland.bozor.util.DateUtils;
+import com.arusland.bozor.util.JsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by ruslan on 30.09.2014.
@@ -54,24 +53,45 @@ public class ApiController {
         return status;
     }
 
+    @ResponseBody
+    @RequestMapping("/chart/pm/{month}")
+    public List<ChartDataDto> getPieChartByMonth(@PathVariable String month) {
+        Date monthParsed = DateUtils.parseMonth(month);
+        Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
+        Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
+        List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false);
+        HashMap<Product, Double> items = new HashMap<>();
 
-    public List<ProductItem> getItems(@PathVariable String time) {
-        Date parsedTime = DateUtils.parseTime(time);
+        for (ProductItem item : productItems) {
+            Double inner = items.get(item.getProduct());
 
-        return service.getProductItems(parsedTime, true);
+            if (inner == null) {
+                inner = new Double(0);
+            }
+
+            inner += calcPrice(item.getPrice());
+            items.put(item.getProduct(), inner);
+        }
+
+        LinkedList<ChartDataDto> result = new LinkedList<>();
+
+        for(Map.Entry<Product, Double> entry : items.entrySet()){
+            result.add(new ChartDataDto(entry.getKey().getName(), entry.getValue()));
+        }
+
+        return result;
     }
 
     @ResponseBody
     @RequestMapping("/itemsMonth/{month}")
-    public List<StatusMonth> getItemsByMonth(@PathVariable String month)
-    {
+    public List<StatusMonth> getItemsByMonth(@PathVariable String month) {
         Date monthParsed = DateUtils.parseMonth(month);
         Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
         Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
         List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false);
         List<StatusMonth> result = new LinkedList<>();
 
-        for (ProductItem item : productItems){
+        for (ProductItem item : productItems) {
             String key = DateUtils.toStringShort(item.getDate());
             StatusMonth status = getOrCreateStatus(result, key);
 
@@ -89,7 +109,7 @@ public class ApiController {
 
     @ResponseBody
     @RequestMapping(value = "/item", method = RequestMethod.POST)
-    public ProductItemDto updateItem(@RequestBody ProductItemDto item){
+    public ProductItemDto updateItem(@RequestBody ProductItemDto item) {
         return ProductItemDto.fromItem(service.save(item));
     }
 
@@ -112,10 +132,9 @@ public class ApiController {
         return service.buyItem(itemId);
     }
 
-    private static StatusMonth getOrCreateStatus(List<StatusMonth> list, String key)
-    {
-        for (int i = 0;i < list.size();i++){
-            if (key.equals(list.get(i).getDay())){
+    private static StatusMonth getOrCreateStatus(List<StatusMonth> list, String key) {
+        for (int i = 0; i < list.size(); i++) {
+            if (key.equals(list.get(i).getDay())) {
                 return list.get(i);
             }
         }
@@ -125,5 +144,9 @@ public class ApiController {
         list.add(status);
 
         return status;
+    }
+
+    private double calcPrice(String price){
+        return JsUtils.eval(price);
     }
 }
