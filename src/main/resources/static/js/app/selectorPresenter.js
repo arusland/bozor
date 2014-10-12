@@ -151,9 +151,15 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
             currentProducts = null;
         };
 
+        function stop(){
+            reset();
+            inited = false;
+        };
+
         return {
             init: init,
             repeatQuery: repeatQuery,
-            reset: reset
+            reset: reset,
+            stop: stop
         };
     }]);
