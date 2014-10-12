@@ -59,6 +59,11 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
                 lastToken = data.token;
                 handleErrorCaller(null);
 
+                if (data.updates === undefined){
+                    handleErrorCaller('Loading data failed');
+                    return;
+                }
+
                 if (data.updates.items) {
                     onNewItems(data.updates.items);
                 }
@@ -142,6 +147,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
         };
 
         function repeatQuery() {
+            reset();
             handleErrorCaller(null);
             onTimeout(true);
         };
