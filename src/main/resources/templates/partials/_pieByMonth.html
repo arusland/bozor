@@ -6,7 +6,7 @@
                 <span class="navbar-brand">{{ monthName}}</span>
             </div>
 
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="#20140821" id="prevDay" th:title="#{show.prevmonth}">
                         <span class="glyphicon glyphicon-chevron-left nav-date"/></a></li>
@@ -22,6 +22,10 @@
                             <li ng-repeat="cmd in commands"><a href="{{cmd.link}}">{{cmd.name}}</a></li>
                         </ul>
                     </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/logout" th:text="#{login.logout}">Logout</a></li>
                 </ul>
             </div>
         </div>

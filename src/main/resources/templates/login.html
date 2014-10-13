@@ -1,26 +1,30 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Login</title>
+    <title th:text="#{login.caption}">Login</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="#" th:href="@{/css/main.css}"/>
     <link href="#" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen" />
+          rel="stylesheet" media="screen"/>
     <link href="#" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap-theme.min.css}"
-          rel="stylesheet" media="screen" />
+          rel="stylesheet" media="screen"/>
 </head>
 <body onload="document.form.username.focus();">
-	<div class="main-container">
-		<div class="content">
-			<p th:if="${param.logout}" class="alert">You have been logged out</p>
-			<p th:if="${param.error}" class="alert alert-error">There was an error, please try again</p>
-			<h2>Login with Username and Password</h2>
-			<form name="form" id="form" th:action="@{/login}" action="/login" method="POST">
-				<fieldset>
-					<input type="text" name="username" value="" placeholder="Username" />
-					<input type="password" name="password" placeholder="Password" />
-				</fieldset>
-				<input type="submit" id="login" value="Login" class="btn btn-primary" />
-			</form>
-		</div>
-	</div>
+<div class="login-container">
+    <h4 th:text="#{login.caption}">Login with username and password</h4>
+
+    <p th:if="${param.logout}" class="alert">You have been logged out</p>
+    <p th:if="${param.error}" class="alert alert-danger"  th:text="#{login.errortry}">There was an error, please try again</p>
+
+    <form name="form" id="form" th:action="@{/login}" action="/login" method="POST" role="form">
+        <div class="form-group">
+            <input type="text" name="username" id="username" value="" th:attr="placeholder=#{login.username}" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <input type="password" name="password" id="password" th:attr="placeholder=#{login.password}" class="form-control"/>
+        </div>
+
+        <input type="submit" id="login" th:value="#{login.signin}" class="btn btn-primary"/>
+    </form>
+</div>
 </body>
 </html>
