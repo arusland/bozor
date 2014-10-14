@@ -4,34 +4,57 @@ import org.apache.commons.lang3.StringUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import java.util.HashMap;
+import java.util.regex.Pattern;
+
 /**
  * Created by ruslan on 12.10.2014.
  */
 public class JsUtils {
-    public static Double eval(String expression) {
-        Double result = new Double(0);
+    private final static Pattern VALIDATION = Pattern.compile("^[\\d\\.\\+\\-\\*/\\(\\)\\s]+$");
+    private final static HashMap<String, Double> cache = new HashMap<>();
 
-        if (StringUtils.isNotBlank(expression)) {
-            try {
-                Context context = Context.enter();
-                Scriptable scope = context.initStandardObjects();
+    public static Double eval(String expression0) {
+        if (StringUtils.isNotBlank(expression0)) {
 
-                Object val = context.evaluateString(scope, expression, "sourceName", 1, null);
-
-                if (val != null) {
-                    if (val instanceof Double) {
-                        result = (Double) val;
-                    } else {
-                        result = Double.valueOf(val.toString());
-                    }
+            synchronized (cache) {
+                if (cache.containsKey(expression0)) {
+                    return cache.get(expression0);
                 }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            } finally {
-                Context.exit();
+            }
+
+            String expression = expression0.replaceAll(",", ".");
+
+            if (VALIDATION.matcher(expression).matches()) {
+                try {
+                    Context context = Context.enter();
+                    Scriptable scope = context.initStandardObjects();
+
+                    Object val = context.evaluateString(scope, expression, "sourceName", 1, null);
+
+                    if (val != null) {
+                        Double result;
+
+                        if (val instanceof Double) {
+                            result = (Double) val;
+                        } else {
+                            result = Double.valueOf(val.toString());
+                        }
+
+                        synchronized (cache) {
+                            cache.put(expression0, result);
+                        }
+
+                        return result;
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    Context.exit();
+                }
             }
         }
 
-        return result;
+        return new Double(0);
     }
 }
