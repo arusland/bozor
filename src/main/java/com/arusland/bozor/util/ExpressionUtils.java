@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.regex.Pattern;
 
 /**
- * Created by ruslan on 12.10.2014.
+ * Class to calculating simple mathematical expression.
  */
-public class JsUtils {
+public class ExpressionUtils {
     private final static Pattern VALIDATION = Pattern.compile("^[\\d\\.\\+\\-\\*/\\(\\)\\s]+$");
     private final static HashMap<String, Double> cache = new HashMap<>();
 
