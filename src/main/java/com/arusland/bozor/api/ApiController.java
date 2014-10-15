@@ -5,7 +5,7 @@ import com.arusland.bozor.dto.*;
 import com.arusland.bozor.service.ProductService;
 import com.arusland.bozor.service.StatusManager;
 import com.arusland.bozor.util.DateUtils;
-import com.arusland.bozor.util.JsUtils;
+import com.arusland.bozor.util.ExpressionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +45,8 @@ public class ApiController {
             List<ProductItem> items = statusResult.hasNewItems ? service.getProductItems(parsedTime, isToday) : null;
             List<Product> products = statusResult.hasNewProducts ? service.getProducts() : null;
 
-            status = new Status(statusResult.token, ProductItemDto.fromList(items), products);
+            status = new Status(statusResult.token, ProductItemDto.fromList(items),
+                    ProductDto.fromList(products));
         } else {
             status = new Status(statusResult.token);
         }
@@ -103,8 +104,8 @@ public class ApiController {
 
     @ResponseBody
     @RequestMapping("/products")
-    public List<Product> getProducts() {
-        return service.getProducts();
+    public List<ProductDto> getProducts() {
+        return ProductDto.fromList(service.getProducts());
     }
 
     @ResponseBody
@@ -115,8 +116,8 @@ public class ApiController {
 
     @ResponseBody
     @RequestMapping(value = "/product", method = RequestMethod.POST)
-    public Product updateProduct(@RequestBody Product item) {
-        return service.save(item);
+    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
+        return ProductDto.fromProduct(service.save(productDto));
     }
 
     @RequestMapping(value = "/item/{id}", method = RequestMethod.DELETE)
@@ -147,6 +148,6 @@ public class ApiController {
     }
 
     private double calcPrice(String price){
-        return JsUtils.eval(price);
+        return ExpressionUtils.eval(price);
     }
 }

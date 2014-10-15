@@ -2,6 +2,7 @@ package com.arusland.bozor.service;
 
 import com.arusland.bozor.domain.Product;
 import com.arusland.bozor.domain.ProductItem;
+import com.arusland.bozor.dto.ProductDto;
 import com.arusland.bozor.dto.ProductItemDto;
 
 import java.util.Date;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public interface ProductService {
 
-    Product save(Product product);
+    Product save(ProductDto product);
 
     ProductItem save(ProductItemDto productItem);
 

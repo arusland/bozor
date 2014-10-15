@@ -79,7 +79,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
         };
 
         function onCreateProduct(param) {
-            productSvc.saveProduct({type: '1', name: param}, function (data) {
+            productSvc.saveProduct({name: param}, function (data) {
                 listProducts(function () {
                     onAddProductItem(data.id, param);
                 });

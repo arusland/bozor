@@ -2,9 +2,12 @@ package com.arusland.bozor.service.impl;
 
 import com.arusland.bozor.domain.Product;
 import com.arusland.bozor.domain.ProductItem;
+import com.arusland.bozor.domain.ProductType;
+import com.arusland.bozor.dto.ProductDto;
 import com.arusland.bozor.dto.ProductItemDto;
 import com.arusland.bozor.repository.ProductItemRepository;
 import com.arusland.bozor.repository.ProductRepository;
+import com.arusland.bozor.repository.ProductTypeRepository;
 import com.arusland.bozor.service.ProductService;
 import com.arusland.bozor.service.StatusManager;
 import com.arusland.bozor.util.DateUtils;
@@ -23,22 +26,34 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductItemRepository productItemRepository;
+    private final ProductTypeRepository productTypeRepository;
     private final StatusManager statusManager;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, ProductItemRepository productItemRepository, StatusManager statusManager) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductItemRepository productItemRepository, ProductTypeRepository productTypeRepository, StatusManager statusManager) {
         this.productRepository = productRepository;
         this.productItemRepository = productItemRepository;
+        this.productTypeRepository = productTypeRepository;
         this.statusManager = statusManager;
     }
 
     @Override
-    public Product save(Product product) {
+    @Transactional
+    public Product save(ProductDto productDto) {
         statusManager.modifyProducts();
+
+        Product product = productDto.toProduct();
+        ProductType productType = productDto.getTypeId() != null ?
+                productTypeRepository.getOne(productDto.getTypeId()) :
+                productTypeRepository.getOne(1L); // if product type not specifie set defualt (first) type
+
+        product.setProductType(productType);
+
         return productRepository.save(product);
     }
 
     @Override
+    @Transactional
     public ProductItem save(ProductItemDto productItem) {
         statusManager.modifyItems();
 
@@ -73,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional
     public ProductItemDto buyItem(Long id) {
         ProductItem item = productItemRepository.getOne(id);
 

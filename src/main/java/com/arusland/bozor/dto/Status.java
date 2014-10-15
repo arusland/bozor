@@ -1,8 +1,5 @@
 package com.arusland.bozor.dto;
 
-import com.arusland.bozor.domain.Product;
-import com.arusland.bozor.dto.ProductItemDto;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,10 +15,10 @@ public class Status {
 
     public Status(String token) {
         this.token = token;
-        updates = new HashMap<String, Object>();
+        updates = new HashMap<>();
     }
 
-    public Status(String token, List<ProductItemDto> items, List<Product> products) {
+    public Status(String token, List<ProductItemDto> items, List<ProductDto> products) {
         this(token);
 
         if (items != null) {
