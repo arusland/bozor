@@ -17,7 +17,7 @@
 
     <form name="form" id="form" th:action="@{/login}" action="/login" method="POST" role="form">
         <div class="form-group">
-            <input type="text" name="username" id="username" value="" th:attr="placeholder=#{login.username}" class="form-control"/>
+            <input type="text" name="username" id="username" value="admin" th:attr="placeholder=#{login.username}" class="form-control"/>
         </div>
         <div class="form-group">
             <input type="password" name="password" id="password" th:attr="placeholder=#{login.password}" class="form-control"/>

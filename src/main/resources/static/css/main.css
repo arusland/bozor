@@ -203,3 +203,8 @@ a.red {
     padding-right: 15px;
     padding-top: 50px;
 }
+
+.prod-type-col{
+    width: 190px;
+    text-align: center;
+}

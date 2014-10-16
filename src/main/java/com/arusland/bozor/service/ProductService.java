@@ -2,6 +2,7 @@ package com.arusland.bozor.service;
 
 import com.arusland.bozor.domain.Product;
 import com.arusland.bozor.domain.ProductItem;
+import com.arusland.bozor.domain.ProductType;
 import com.arusland.bozor.dto.ProductDto;
 import com.arusland.bozor.dto.ProductItemDto;
 
@@ -17,6 +18,8 @@ public interface ProductService {
 
     ProductItem save(ProductItemDto productItem);
 
+    ProductType save(ProductType productType);
+
     void removeProductItem(Long id);
 
     List<ProductItem> getProductItems(Date date, boolean getNew);
@@ -24,6 +27,8 @@ public interface ProductService {
     List<ProductItem> getProductItems(Date dateFrom, Date dateTo, boolean getNew);
 
     List<Product> getProducts();
+
+    List<ProductType> getProductTypes();
 
     ProductItemDto buyItem(Long id);
 }

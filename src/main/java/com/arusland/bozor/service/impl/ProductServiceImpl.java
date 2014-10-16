@@ -11,6 +11,7 @@ import com.arusland.bozor.repository.ProductTypeRepository;
 import com.arusland.bozor.service.ProductService;
 import com.arusland.bozor.service.StatusManager;
 import com.arusland.bozor.util.DateUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,6 +65,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
+    public ProductType save(ProductType productType) {
+        if (StringUtils.isBlank(productType.getName())){
+            throw new RuntimeException("Product type must have name");
+        }
+
+        ProductType type = productTypeRepository.findByName(productType.getName());
+
+        if (type != null && !type.getId().equals(productType.getId())){
+            throw new RuntimeException("Product with the same name already exists");
+        }
+
+        return productTypeRepository.save(productType);
+    }
+
+    @Override
     public void removeProductItem(Long id) {
         statusManager.modifyItems();
         productItemRepository.delete(id);
@@ -85,6 +102,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProducts() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public List<ProductType> getProductTypes() {
+        return productTypeRepository.findAll();
     }
 
     @Override

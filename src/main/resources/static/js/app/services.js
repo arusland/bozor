@@ -9,6 +9,11 @@ bozorApp.factory('productSvc', ['$resource', function ($resource) {
                 isArray: true,
                 method: 'GET'
             },
+            listProductTypes: {
+                url: '/api/types',
+                isArray: true,
+                method: 'GET'
+            },
             listProductItems: {
                 url: '/api/items/:time',
                 params: { time: '@time' },
@@ -33,6 +38,10 @@ bozorApp.factory('productSvc', ['$resource', function ($resource) {
             },
             saveProductItem: {
                 url: '/api/item',
+                method: 'POST'
+            },
+            saveProductType: {
+                url: '/api/type',
                 method: 'POST'
             },
             removeProductItem: {

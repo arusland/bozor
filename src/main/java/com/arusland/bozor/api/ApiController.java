@@ -109,6 +109,12 @@ public class ApiController {
     }
 
     @ResponseBody
+    @RequestMapping("/types")
+    public List<ProductType> getProductTypes() {
+        return service.getProductTypes();
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/item", method = RequestMethod.POST)
     public ProductItemDto updateItem(@RequestBody ProductItemDto item) {
         return ProductItemDto.fromItem(service.save(item));
@@ -118,6 +124,12 @@ public class ApiController {
     @RequestMapping(value = "/product", method = RequestMethod.POST)
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {
         return ProductDto.fromProduct(service.save(productDto));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/type", method = RequestMethod.POST)
+    public ProductType updateProduct(@RequestBody ProductType productType) {
+        return service.save(productType);
     }
 
     @RequestMapping(value = "/item/{id}", method = RequestMethod.DELETE)

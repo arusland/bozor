@@ -32,6 +32,11 @@ public class HomeController {
         return "show";
     }
 
+    @RequestMapping("/products")
+    public String products(){
+        return "products";
+    }
+
     @RequestMapping("/chart")
     public String chart(){
         return "chart";
