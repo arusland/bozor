@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `product_item` (
 
 CREATE TABLE IF NOT EXISTS `product_type` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL UNIQUE,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -33,11 +33,20 @@ CREATE TABLE IF NOT EXISTS `product_type` (
 ALTER TABLE `product`
 ADD CONSTRAINT `FK_pe3bpejwrpkqc4ao43xrw0wpo` FOREIGN KEY (`product_type_id`) REFERENCES `product_type` (`id`);
 
+ALTER TABLE `product` ADD UNIQUE (
+  `name`
+);
+
 ALTER TABLE `product_item`
 ADD CONSTRAINT `FK_692vhya96i14fhg5bqqvohcii` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
+ALTER TABLE `product_type` ADD UNIQUE (
+  `name`
+);
+
+
 -- initial data - ru
-insert into product_type(id, name) values(1, 'Не назначено');
+insert into product_type(id, name) values(1, 'Неизвестный');
 
 -- initial data - en
 -- insert into product_type(id, name) values(1, 'Not specified');

@@ -87,6 +87,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public void removeProduct(Long id) {
+        productRepository.delete(id);
+    }
+
+    @Override
     public List<ProductItem> getProductItems(Date date, boolean getNew) {
         Date dateFrom = DateUtils.getMinTimeOfDay(date);
         Date dateTo = DateUtils.getMaxTimeOfDay(date);

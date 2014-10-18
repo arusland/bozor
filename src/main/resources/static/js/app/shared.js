@@ -244,3 +244,5 @@ function getMonthCommands(day, linkPrefix) {
 
     return commands;
 };
+
+

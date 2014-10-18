@@ -208,3 +208,7 @@ a.red {
     width: 190px;
     text-align: center;
 }
+
+.error-box{
+    width: 100px;
+}

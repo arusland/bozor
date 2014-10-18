@@ -15,6 +15,7 @@
     <link href="#" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap-theme.min.css}"
           rel="stylesheet" media="screen"/>
     <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/chosen.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/toastr.min.css}"/>
 </head>
 
 <body class="body-nav">
@@ -34,7 +35,7 @@
     <table class="table table-bordered table-row table-hover">
         <thead>
         <th th:text="#{show.productname}" class="left-cell">Name</th>
-        <th th:text="#{show.producttype}">Type</th>
+        <th th:text="#{show.producttype}" class="prod-type-col">>Type</th>
         <th style="width: 50px;"></th>
         </thead>
         <tbody>
@@ -42,7 +43,7 @@
             <td>
                 <div ng-hide="product.edit">{{product.name}}</div>
                 <div ng-show="product.edit" class="input-group input-group-sm">
-                    <input type="text" class="form-control" ng-model="tempProduct.name"/>
+                    <input type="text" class="form-control" ng-model="tempProduct.name" on-enter="saveProduct()"/>
                 </div>
             </td>
 
@@ -55,11 +56,15 @@
             </td>
 
             <td class="prod-type-col">
-                <a class="btn btn-sm btn-primary" ng-click="startEdit(product)" ng-hide="product.edit" th:text="#{show.edit}">Edit</a>
-                <a class="btn btn-sm btn-danger" ng-click="removeProduct(product)" ng-hide="product.edit" th:text="#{show.remove}">Remove</a>
+                <a class="btn btn-sm btn-primary" ng-click="startEdit(product)" ng-hide="product.edit"
+                   th:text="#{show.edit}">Edit</a>
+                <a class="btn btn-sm btn-danger" ng-click="removeProduct(product)" ng-hide="product.edit"
+                   th:text="#{show.remove}">Remove</a>
 
-                <a class="btn btn-sm btn-success" ng-click="saveProduct(product)" ng-show="product.edit" th:text="#{show.save}">Save</a>
-                <a class="btn btn-sm btn-warning" ng-click="cancelEdit()" ng-show="product.edit" th:text="#{show.cancel}">Cancel</a>
+                <a class="btn btn-sm btn-success" ng-click="saveProduct()" ng-show="product.edit"
+                   th:text="#{show.save}">Save</a>
+                <a class="btn btn-sm btn-warning" ng-click="cancelEdit()" ng-show="product.edit"
+                   th:text="#{show.cancel}">Cancel</a>
             </td>
         </tr>
         </tbody>
@@ -69,6 +74,7 @@
 
 <script src="#" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 <script src="#" th:src="@{/js/chosen.jquery.min.js}"></script>
+<script src="#" th:src="@{/js/toastr.js}"></script>
 <script src="#" th:src="@{/webjars/angularjs/1.2.25/angular.min.js}"></script>
 <script src="#" th:src="@{/webjars/angularjs/1.2.25/angular-route.min.js}"></script>
 <script src="#" th:src="@{/webjars/angularjs/1.2.25/angular-resource.min.js}"></script>
@@ -77,7 +83,9 @@
 
 <script src="#" th:src="@{/js/app/shared.js}"></script>
 <script src="#" th:src="@{/js/app/app.js}"></script>
+<script src="#" th:src="@{/js/app/directives.js}"></script>
 <script src="#" th:src="@{/js/app/services.js}"></script>
+<script src="#" th:src="@{/js/app/notificationService.js}"></script>
 <script src="#" th:src="@{/js/app/productsEditController.js}"></script>
 </body>
 </html>

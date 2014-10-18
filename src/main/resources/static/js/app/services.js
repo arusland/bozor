@@ -49,6 +49,11 @@ bozorApp.factory('productSvc', ['$resource', function ($resource) {
                 params: { itemKey: '@itemKey' },
                 method: 'DELETE'
             },
+            removeProduct: {
+                url: '/api/product/:key',
+                params: { key: '@key' },
+                method: 'DELETE'
+            },
             getStatus: {
                 url: '/api/status/:token/:time',
                 params: { token: '@token', time: '@time' },

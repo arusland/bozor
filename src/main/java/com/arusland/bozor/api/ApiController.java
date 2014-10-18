@@ -139,6 +139,13 @@ public class ApiController {
         }
     }
 
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
+    public void removeProduct(@PathVariable Long id) {
+        if (id != null) {
+            service.removeProduct(id);
+        }
+    }
+
     @ResponseBody
     @RequestMapping(value = "/buy/{itemId}", method = RequestMethod.POST)
     public ProductItemDto buyItem(@PathVariable Long itemId) {

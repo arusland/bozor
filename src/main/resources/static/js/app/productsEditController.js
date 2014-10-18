@@ -1,26 +1,41 @@
 'use strict';
 
-bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeout',
-    function ($scope, productSvc, $timeout) {
+bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeout', 'notification',
+    function ($scope, productSvc, $timeout, notification) {
         $scope.products = [];
         $scope.productTypes = [];
         $scope.tempProduct = null;
         $scope.currentProduct = null;
+        $scope.updating = false;
 
-        productSvc.listProductTypes({}, fillProductTypes, handleError);
+        reloadAll();
 
         $scope.saveProduct = function () {
             if ($scope.currentProduct != null && $scope.tempProduct != null){
                 $scope.currentProduct.name = $scope.tempProduct.name;
                 $scope.currentProduct.typeId = $scope.tempProduct.typeId;
                 updateSelectedType($scope.currentProduct);
+
+                console.log($scope.tempProduct);
             }
+
+            $scope.updating = true;
+
+            productSvc.saveProduct($scope.tempProduct, function(){
+                $scope.updating = false;
+            }, handleSavingError);
 
             $scope.cancelEdit();
         };
 
         $scope.startEdit = function(product){
+            if ($scope.updating){
+                return;
+            }
+
             $scope.cancelEdit();
+
+            console.log(product);
 
             product.edit = true;
             $scope.currentProduct = product;
@@ -44,10 +59,14 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
         $scope.removeProduct = function (product) {
             $scope.products.remove(product);
 
-            /*productSvc.removeProduct({itemKey: item.id}, function () {
+             productSvc.removeProduct({key: product.id}, function () {
 
-             }, handleError);*/
+             }, handleSavingError);
         };
+
+        function reloadAll() {
+            productSvc.listProductTypes({}, fillProductTypes, handleLoadingError);
+        }
 
         function fillProducts(products) {
             $scope.products = products;
@@ -60,13 +79,7 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
         function fillProductTypes(productTypes) {
             $scope.productTypes = productTypes;
 
-            productSvc.listProducts({}, fillProducts, handleError);
-        };
-
-        function handleError(error) {
-           // alert(error);
-            console.log(error);
-            $scope.error = error;
+            productSvc.listProducts({}, fillProducts, handleLoadingError);
         };
 
         function updateSelectedType(product) {
@@ -122,13 +135,35 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
                 name: param
             };
 
+            var tempProduct = $scope.tempProduct;
+
             productSvc.saveProductType(newType, function (savedType) {
-                if ($scope.tempProduct) {
-                    $scope.productTypes.push(savedType);
-                    $scope.tempProduct.typeId = savedType.id;
-                    createSelector($scope.tempProduct);
+                $scope.productTypes.push(savedType);
+
+                if (tempProduct) {
+                    tempProduct.typeId = savedType.id;
+
+                    if (tempProduct === $scope.tempProduct) {
+                        createSelector(tempProduct);
+                    }
                 }
-            }, handleError);
+            }, handleSavingError);
         };
+
+        function handleSavingError(error) {
+            handleErrorInternal(error, 'Saving failed');
+        };
+
+        function handleLoadingError(error) {
+            handleErrorInternal(error, 'Loading failed');
+        };
+
+        function handleErrorInternal(error, msg) {
+            if (error != null) {
+                notification.error(msg);
+                reloadAll();
+            }
+            $scope.updating = false;
+        }
     } ]);
 

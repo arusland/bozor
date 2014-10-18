@@ -22,6 +22,8 @@ public interface ProductService {
 
     void removeProductItem(Long id);
 
+    void removeProduct(Long id);
+
     List<ProductItem> getProductItems(Date date, boolean getNew);
 
     List<ProductItem> getProductItems(Date dateFrom, Date dateTo, boolean getNew);
