@@ -3,7 +3,7 @@
 bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$timeout', 'dialogsSvc', '$routeParams', 'selectorPresenter',
     function ($scope, productSvc, $modal, $timeout, dialogsSvc, $routeParams, selectorPresenter) {
         $scope.modified = false;
-        moment.locale('ru');
+        moment.locale(getCurrentLocale());
 
         var day = moment($routeParams.time, _shortDateFormat);
 

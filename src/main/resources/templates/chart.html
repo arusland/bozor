@@ -16,6 +16,8 @@
 <body class="body-nav">
 <div ng-view=""></div>
 
+<input type="hidden" id="_locale" th:value="${#locale.language}"/>
+
 <script src="#" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 <script src="#" th:src="@{/js/moment-with-locales.min.js}"></script>
 <script src="#" th:src="@{/webjars/angularjs/1.2.25/angular.min.js}"></script>

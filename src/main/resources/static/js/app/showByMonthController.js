@@ -31,7 +31,7 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
         };
 
         function init() {
-            moment.locale('ru');
+            moment.locale(getCurrentLocale());
             selectorPresenter.stop();
 
             var month = moment($routeParams.month, _shortMonthFormat);

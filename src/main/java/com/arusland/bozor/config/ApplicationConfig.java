@@ -15,8 +15,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 /**
  * Created by ruslan on 29.09.2014.
@@ -49,6 +52,19 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        final LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("lang");
+
+        registry.addInterceptor(localeChangeInterceptor);
+    }
+
+    @Bean(name = "localeResolver")
+    public SessionLocaleResolver getLocaleResolver(){
+        return new SessionLocaleResolver();
     }
 
     @Configuration

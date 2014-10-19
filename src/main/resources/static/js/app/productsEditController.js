@@ -2,21 +2,22 @@
 
 bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeout', 'notification',
     function ($scope, productSvc, $timeout, notification) {
-        $scope.products = [];
-        $scope.productTypes = [];
-        $scope.tempProduct = null;
-        $scope.currentProduct = null;
-        $scope.updating = false;
+        init();
 
-        reloadAll();
+        function init() {
+            $scope.products = [];
+            $scope.productTypes = [];
+            $scope.tempProduct = null;
+            $scope.currentProduct = null;
+            $scope.updating = false;
+            reloadAll();
+        }
 
         $scope.saveProduct = function () {
             if ($scope.currentProduct != null && $scope.tempProduct != null){
                 $scope.currentProduct.name = $scope.tempProduct.name;
                 $scope.currentProduct.typeId = $scope.tempProduct.typeId;
                 updateSelectedType($scope.currentProduct);
-
-                console.log($scope.tempProduct);
             }
 
             $scope.updating = true;

@@ -22,7 +22,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
                 .appendTo($("#" + id));
 
             $('#selector').chosen({create_option: onCreateProduct, skip_no_results: true,
-                create_option_text: 'Добавить продукт'});
+                create_option_text: $('#_addproduct').val()});
 
             $('#selector').on('change', function (evt, params) {
                 var selected = $('#selector :selected');

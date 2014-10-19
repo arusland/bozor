@@ -245,4 +245,6 @@ function getMonthCommands(day, linkPrefix) {
     return commands;
 };
 
-
+function getCurrentLocale(){
+    return $('#_locale').val();
+};
