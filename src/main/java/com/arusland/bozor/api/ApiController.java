@@ -55,8 +55,8 @@ public class ApiController {
     }
 
     @ResponseBody
-    @RequestMapping("/chart/pm/{month}")
-    public List<ChartDataDto> getPieChartByMonth(@PathVariable String month) {
+    @RequestMapping("/chart/pmp/{month}")
+    public List<ChartDataDto> getPieChartByProductInMonth(@PathVariable String month) {
         Date monthParsed = DateUtils.parseMonth(month);
         Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
         Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
@@ -77,6 +77,36 @@ public class ApiController {
         LinkedList<ChartDataDto> result = new LinkedList<>();
 
         for(Map.Entry<Product, Double> entry : items.entrySet()){
+            result.add(new ChartDataDto(entry.getKey().getName(), entry.getValue()));
+        }
+
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/chart/pmt/{month}")
+    public List<ChartDataDto> getPieChartByProductTypeInMonth(@PathVariable String month) {
+        Date monthParsed = DateUtils.parseMonth(month);
+        Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
+        Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
+        List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false);
+        HashMap<ProductType, Double> items = new HashMap<>();
+
+        for (ProductItem item : productItems) {
+            ProductType type = item.getProduct().getProductType();
+            Double inner = items.get(type);
+
+            if (inner == null) {
+                inner = new Double(0);
+            }
+
+            inner += calcPrice(item.getPrice());
+            items.put(type, inner);
+        }
+
+        LinkedList<ChartDataDto> result = new LinkedList<>();
+
+        for(Map.Entry<ProductType, Double> entry : items.entrySet()){
             result.add(new ChartDataDto(entry.getKey().getName(), entry.getValue()));
         }
 
