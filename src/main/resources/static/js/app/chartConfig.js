@@ -12,5 +12,9 @@ bozorApp.config(function ($routeProvider) {
             controller: 'PieChartByProductTypeByMonthController',
             templateUrl: '/partials/pieByMonth'
         })
+        .when('/pmt',
+        {
+            redirectTo: '/pmt' + formatShortMonth(new Date())
+        })
         .otherwise({ redirectTo: '/pmp' + formatShortMonth(new Date()) });
 });

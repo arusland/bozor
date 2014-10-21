@@ -2,7 +2,7 @@
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <span class="navbar-brand">{{ monthName}}</span>
+                <a class="navbar-brand" href="/show">{{ monthName}}</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -18,6 +18,9 @@
                                 class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="/chart" th:text="#{show.chartbyproduct}">Chart by product</a></li>
+                            <li><a href="/chart#pmt" th:text="#{show.chartbyproducttype}">Chart by product type</a></li>
+                            <li class="divider"></li>
                             <li ng-repeat="cmd in commands"><a href="{{cmd.link}}">{{cmd.name}}</a></li>
                         </ul>
                     </li>

@@ -2,7 +2,7 @@
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#" th:text="#{show.today}">Today</a>
+                <a class="navbar-brand" href="/" th:text="#{show.today}">Today</a>
             </div>
 
             <div class="collapse navbar-collapse">
@@ -16,6 +16,9 @@
                                 class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="/chart" th:text="#{show.chartbyproduct}">Chart by product</a></li>
+                            <li><a href="/chart#pmt" th:text="#{show.chartbyproducttype}">Chart by product type</a></li>
+                            <li class="divider"></li>
                             <li ng-repeat="cmd in commands"><a href="{{cmd.link}}">{{cmd.name}}</a></li>
                         </ul>
                     </li>

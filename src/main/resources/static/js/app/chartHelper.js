@@ -10,13 +10,21 @@ bozorApp.factory('chartHelper', ['productSvc',
                 $routeParams.month = month.format(_shortMonthFormat);
             }
             $scope.commands = getMonthCommands(month, prefix);
-            var title = title + ' ' + getMonthName(month).toLowerCase();
+            $scope.monthName = getMonthName(month);
+            var title = title + ' ' + $scope.monthName.toLowerCase();
             var prevMonth = month.clone().subtract(1, 'month').format(_shortMonthFormat);
             var nextMonth = month.clone().add(1, 'month').format(_shortMonthFormat);
             $('#prevDay').attr('href', '#' + prefix + prevMonth);
             $('#nextDay').attr('href', '#' + prefix + nextMonth);
-            var methodName = 'pmp' === prefix ?
+            $scope.byProduct = 'pmp' === prefix;
+            var methodName = $scope.byProduct ?
                 'getPieChartDataByProductInMonth' : 'getPieChartDataByProductTypeInMonth';
+
+            if ($scope.byProduct){
+                document.title = $('#_titlechartproduct').val();
+            } else {
+                document.title = $('#_titlechartproducttype').val();
+            }
 
             productSvc[methodName]({month: $routeParams.month}, function (data) {
                 drawChart(data, title, $('#_wholePrice').val());

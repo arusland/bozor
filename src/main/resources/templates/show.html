@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" ng-app="bozorApp">
 <head>
-    <title>Bozor shopping list</title>
+    <title th:text="#{title.show}">Bozor shopping list</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" type="text/css" media="all"
@@ -16,9 +16,12 @@
           rel="stylesheet" media="screen" />
 </head>
 <body class="body-nav">
-<div ng-view=""></div>
 
 <input type="hidden" id="_locale" th:value="${#locale.language}"/>
+<input type="hidden" id="_titleshow" th:value="#{title.show}"/>
+<input type="hidden" id="_titlemonth" th:value="#{title.month}"/>
+
+<div ng-view=""></div>
 
 <script src="#" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 <script src="#" th:src="@{/js/chosen.jquery.min.js}"></script>

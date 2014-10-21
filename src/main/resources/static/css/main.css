@@ -18,7 +18,7 @@ body {
 
 a, a:visited {
     outline: none;
-    color: #389dc1;
+    color: #1057c1;
 }
 
 a:hover {
@@ -97,12 +97,7 @@ div.total {
     padding: 15px 30px;
     font-size: 20px;
     font-weight: bold;
-    text-align: left;
-    color: #fff;
-}
-
-div.total span {
-    float: right;
+    text-align: center;
 }
 
 .bought-true {

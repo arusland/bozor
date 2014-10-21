@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" ng-app="bozorApp">
 <head>
-    <title>Bozor shopping list</title>
+    <title th:text="#{title.home}">Bozor shopping list</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" type="text/css" media="all"
@@ -51,6 +51,7 @@
             </ul>
 
             <div class="total">
+                <a href="/show"><span class="glyphicon glyphicon-pencil"></span><span th:text="#{show.edit}">Edit</span></a>
             </div>
         </div>
     </div>

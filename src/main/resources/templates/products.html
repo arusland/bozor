@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" ng-app="bozorApp">
 <head>
-    <title>Product list :: Bozor</title>
+    <title th:text="#{title.producttypes}">Product list :: Bozor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <link rel="stylesheet" type="text/css" media="all"
@@ -32,6 +32,8 @@
 
 
 <div ng-controller="ProductsEditController" class="main-container">
+    <h3 th:text="#{show.producttypes}" class="text-center">Product types</h3>
+
     <table class="table table-bordered table-row table-hover">
         <thead>
         <th th:text="#{show.productname}" class="left-cell">Name</th>
@@ -39,7 +41,7 @@
         <th style="width: 50px;"></th>
         </thead>
         <tbody>
-        <tr ng-repeat="product in products">
+        <tr ng-repeat="product in products" class="{{getProductClass(product)}}">
             <td>
                 <div ng-hide="product.edit">{{product.name}}</div>
                 <div ng-show="product.edit" class="input-group input-group-sm">
@@ -71,6 +73,7 @@
     </table>
 
     <input type="hidden" id="_locale" th:value="${#locale.language}"/>
+    <input type="hidden" id="_addproducttype" th:value="#{show.addproducttype}"/>
 </div>
 
 <script src="#" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>

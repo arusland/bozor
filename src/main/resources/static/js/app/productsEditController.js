@@ -14,7 +14,7 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
         }
 
         $scope.saveProduct = function () {
-            if ($scope.currentProduct != null && $scope.tempProduct != null){
+            if ($scope.currentProduct != null && $scope.tempProduct != null) {
                 $scope.currentProduct.name = $scope.tempProduct.name;
                 $scope.currentProduct.typeId = $scope.tempProduct.typeId;
                 updateSelectedType($scope.currentProduct);
@@ -22,15 +22,15 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
 
             $scope.updating = true;
 
-            productSvc.saveProduct($scope.tempProduct, function(){
+            productSvc.saveProduct($scope.tempProduct, function () {
                 $scope.updating = false;
             }, handleSavingError);
 
             $scope.cancelEdit();
         };
 
-        $scope.startEdit = function(product){
-            if ($scope.updating){
+        $scope.startEdit = function (product) {
+            if ($scope.updating) {
                 return;
             }
 
@@ -49,7 +49,7 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
             createSelector(product);
         };
 
-        $scope.cancelEdit = function(){
+        $scope.cancelEdit = function () {
             if ($scope.currentProduct) {
                 $scope.currentProduct.edit = false;
                 $scope.currentProduct = null;
@@ -60,9 +60,13 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
         $scope.removeProduct = function (product) {
             $scope.products.remove(product);
 
-             productSvc.removeProduct({key: product.id}, function () {
+            productSvc.removeProduct({key: product.id}, function () {
 
-             }, handleSavingError);
+            }, handleSavingError);
+        };
+
+        $scope.getProductClass = function (product) {
+            return product.typeId == 1 ? 'danger' : '';
         };
 
         function reloadAll() {
@@ -87,10 +91,10 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
             product.selectedType = getSelectedType(product);
         }
 
-        function getSelectedType(product){
-            for(var key in $scope.productTypes){
+        function getSelectedType(product) {
+            for (var key in $scope.productTypes) {
                 var item = $scope.productTypes[key];
-                if (item.id === product.typeId){
+                if (item.id === product.typeId) {
                     return item;
                 }
             }
@@ -98,7 +102,7 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
             return null;
         };
 
-        function createSelector(product){
+        function createSelector(product) {
             var host = 'prod' + product.id
             var selector = host + 'sel';
             var hostElem = $("#" + host);
@@ -108,15 +112,15 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
                 '" tabindex="1">' + createTypeOptions(product) + '</select>')
                 .appendTo(hostElem);
 
-            $('#'+selector).chosen({create_option: onCreateProductType,
-                skip_no_results: true, create_option_text: 'Add product type', width: '100%'});
+            $('#' + selector).chosen({create_option: onCreateProductType,
+                skip_no_results: true, create_option_text: $('#_addproducttype').val(), width: '100%'});
 
-            $('#'+selector).on('change', function (evt, params) {
+            $('#' + selector).on('change', function (evt, params) {
                 $scope.tempProduct.typeId = parseInt(params.selected);
             });
         };
 
-        function createTypeOptions(product){
+        function createTypeOptions(product) {
             var result = '';
 
             angular.forEach($scope.productTypes, function (productType) {
@@ -130,7 +134,7 @@ bozorApp.controller('ProductsEditController', [ '$scope', 'productSvc', '$timeou
             return result;
         }
 
-        function onCreateProductType(param){
+        function onCreateProductType(param) {
             var newType =
             {
                 name: param

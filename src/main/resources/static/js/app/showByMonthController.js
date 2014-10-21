@@ -31,6 +31,7 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
         };
 
         function init() {
+            document.title = $('#_titlemonth').val();
             moment.locale(getCurrentLocale());
             selectorPresenter.stop();
 

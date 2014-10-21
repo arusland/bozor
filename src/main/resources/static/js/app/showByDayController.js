@@ -4,6 +4,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
     function ($scope, productSvc, $modal, $timeout, dialogsSvc, $routeParams, selectorPresenter) {
         $scope.modified = false;
         moment.locale(getCurrentLocale());
+        document.title = $('#_titleshow').val();
 
         var day = moment($routeParams.time, _shortDateFormat);
 
@@ -22,6 +23,8 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
 
         $('#prevDay').attr('href', '#d' + prevDay);
         $('#nextDay').attr('href', '#d' + nextDay);
+
+
 
         function onNewItems(newItems) {
             if (itemsAreDifferent(newItems, $scope.oldItems)) {
