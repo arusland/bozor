@@ -114,11 +114,17 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
                 total += calcExpression(s.price);
             });
 
-            return total;
+            return formatPrice(total);
         };
 
         $scope.calcPrice = function(item){
-            return calcExpressionWithError(item.price) || $('#_invalidexp').val();
+            var price = calcExpressionWithError(item.price);
+
+            if (price){
+                return formatPrice(price);
+            }
+
+            return  $('#_invalidexp').val();
         };
 
         $scope.validatePrice = function(item){

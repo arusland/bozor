@@ -213,12 +213,6 @@ var itemsAreDifferent = function (newArray, oldArray) {
     return false;
 };
 
-var parsePrice = function (price) {
-    var result = parseFloat(price);
-
-    return isNaN(result) ? 0 : result;
-};
-
 function getMonthName(mmt, index, skipYear) {
     var year = mmt.format("YYYY");
 
@@ -245,6 +239,21 @@ function getMonthCommands(day, linkPrefix) {
     return commands;
 };
 
-function getCurrentLocale(){
+function getCurrentLocale() {
     return $('#_locale').val();
 };
+
+function formatPrice(val) {
+    try {
+        var result = val.toString();
+
+        if (result.indexOf('.') > 0) {
+            return val.toFixed(2);
+        }
+
+        return result;
+    }
+    catch (e) {
+        return val;
+    }
+}

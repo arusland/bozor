@@ -21,7 +21,7 @@ function calcExpressionWithError(exp0) {
         return _expressionCache[exp0];
     }
 
-    var exp = (exp0 || '').replace(',', '.');
+    var exp = (exp0 || '').replace(/,/g, '.');
     var result = null;
 
     if (_REGEXP_EXPRESSION_VALID.test(exp)) {

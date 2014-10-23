@@ -10,24 +10,24 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
             return mmt.format("D");
         };
 
-        $scope.totalPrice = function(item){
+        $scope.totalPrice = function(item, notFormated){
             var total = 0;
 
             angular.forEach(item.items, function (s) {
                 total += calcExpression(s.price);
             });
 
-            return total;
+            return notFormated ? total : formatPrice(total);
         };
 
         $scope.calcMonthPrice = function(){
             var total = 0;
 
             angular.forEach($scope.items, function (s) {
-                total += $scope.totalPrice(s);
+                total += $scope.totalPrice(s, true);
             });
 
-            return total;
+            return formatPrice(total);
         };
 
         function init() {

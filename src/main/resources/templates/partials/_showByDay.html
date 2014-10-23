@@ -47,7 +47,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="item in items | orderBy:'name'">
-                <td><a href="#" tabindex="-1">{{item.name}}</a></td>
+                <td><a href="/products" tabindex="-1">{{item.name}}</a></td>
                 <td class="pull-center">{{itemComment(item)}}</td>
                 <td class="pull-center">
                     <div class="input-group input-group-sm {{validatePrice(item)}}">
