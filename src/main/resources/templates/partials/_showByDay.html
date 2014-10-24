@@ -37,7 +37,7 @@
         <h3 class="text-center">{{ today }}
             <span class="day-comment" ng-show="dayComment"> ({{ dayComment }})</span></h3>
 
-        <table class="table table-bordered table-row table-hover">
+        <table class="table table-bordered table-row table-hover table-main">
             <thead>
             <th th:text="#{show.itemname}" class="left-cell">Name</th>
             <th th:text="#{show.itemamountcomment}">Amount+comment</th>
@@ -46,7 +46,7 @@
             <th style="width: 50px;"></th>
             </thead>
             <tbody>
-            <tr ng-repeat="item in items | orderBy:'name'">
+            <tr ng-repeat="item in items | orderBy:'name'" class="{{getItemClass(item)}}">
                 <td><a href="/products" tabindex="-1">{{item.name}}</a></td>
                 <td class="pull-center">{{itemComment(item)}}</td>
                 <td class="pull-center">

@@ -167,4 +167,8 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
 
             return result;
         };
+
+        $scope.getItemClass = function(item){
+            return item.price == null || item.price == '' ? 'danger' : '';
+        }
     }]);
