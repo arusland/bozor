@@ -83,6 +83,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/template/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/res/**").permitAll()
                 .anyRequest().fullyAuthenticated().and()
                     .logout()
                     .logoutSuccessUrl("/")
