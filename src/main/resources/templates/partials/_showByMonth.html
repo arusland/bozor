@@ -26,7 +26,19 @@
                     </li>
 
                     <li>
-                        <span class="month-price price-total"><span th:text="#{show.total}">Total</span>: {{calcMonthPrice()}}</span>
+                        <span class="month-price price-total">
+                            <span class="month-price-title">
+                                <span th:text="#{show.total}">Total</span>:
+                            </span> {{monthPrice}}
+                        </span>
+                    </li>
+
+                    <li>
+                        <span class="month-price price-total">
+                            <span class="month-price-title">
+                                <span th:text="#{show.avgbyday}">Avg by day</span>:
+                            </span> {{avgDayPrice}}
+                        </span>
                     </li>
                 </ul>
 
@@ -45,7 +57,7 @@
                 <tbody>
                 <tr ng-repeat="child in item.items">
                     <td>{{child.name}}</td>
-                    <td>{{child.price}}</td>
+                    <td title="{{calcPrice(child)}}">{{child.price}}</td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
@@ -60,6 +72,7 @@
     <input type="hidden" id="_yesterday" th:value="#{show.yesterday}"/>
     <input type="hidden" id="_tomorrow" th:value="#{show.tomorrow}"/>
     <input type="hidden" id="_whatelse" th:value="#{show.whatelse}"/>
+    <input type="hidden" id="_invalidexp" th:value="#{show.invalidexp}"/>
 
     <script>
         $('.dropdown-toggle').dropdown();

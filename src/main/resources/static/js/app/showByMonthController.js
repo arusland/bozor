@@ -10,7 +10,7 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
             return mmt.format("D");
         };
 
-        $scope.totalPrice = function(item, notFormated){
+        $scope.totalPrice = function (item, notFormated) {
             var total = 0;
 
             angular.forEach(item.items, function (s) {
@@ -20,14 +20,29 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
             return notFormated ? total : formatPrice(total);
         };
 
-        $scope.calcMonthPrice = function(){
+        $scope.calcPrice = function(item){
+            var price = calcExpressionWithError(item.price);
+
+            if (price){
+                return formatPrice(price);
+            }
+
+            return  $('#_invalidexp').val();
+        };
+
+        function calcAvgDayPrice(total) {
+            return total / parseInt(moment().format('D'));
+        }
+
+        function calcPrices() {
             var total = 0;
 
             angular.forEach($scope.items, function (s) {
                 total += $scope.totalPrice(s, true);
             });
 
-            return formatPrice(total);
+            $scope.monthPrice = formatPrice(total);
+            $scope.avgDayPrice = formatPrice(calcAvgDayPrice(total));
         };
 
         function init() {
@@ -52,6 +67,7 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
 
             productSvc.listMonthItems({month: $routeParams.month}, function (data) {
                 $scope.items = data;
+                calcPrices();
             }, function () {
                 alert('Load items failed')
             });
