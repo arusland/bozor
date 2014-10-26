@@ -6,14 +6,21 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by ruslan on 28.07.2014.
  */
 public final class DateUtils {
+    private final static long MILLIS_IN_MINUTE = 60 * 1000;
     private final static SimpleDateFormat DF_FULL = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH);
     private final static SimpleDateFormat DF_SHORT = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
     private final static SimpleDateFormat DF_MONTH = new SimpleDateFormat("yyyyMM", Locale.ENGLISH);
+    private final static SimpleDateFormat DF_FULL_UTC = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH);
+
+    static {
+        DF_FULL_UTC.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
 
     public static DateFormat getFullDateFormat() {
         return DF_FULL;
@@ -122,5 +129,20 @@ public final class DateUtils {
         return year == calNow.get(Calendar.YEAR) &&
                 month == calNow.get(Calendar.MONTH) &&
                 day == calNow.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static Date toUTCTime(Date input) {
+        String inputStr = DF_FULL_UTC.format(input);
+
+        try {
+            return DF_FULL.parse(inputStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static Date addMinutes(Date time, long mins) {
+        return new Date(time.getTime() + mins * MILLIS_IN_MINUTE);
     }
 }

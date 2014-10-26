@@ -67,13 +67,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public ProductType save(ProductType productType) {
-        if (StringUtils.isBlank(productType.getName())){
+        if (StringUtils.isBlank(productType.getName())) {
             throw new RuntimeException("Product type must have name");
         }
 
         ProductType type = productTypeRepository.findByName(productType.getName());
 
-        if (type != null && !type.getId().equals(productType.getId())){
+        if (type != null && !type.getId().equals(productType.getId())) {
             throw new RuntimeException("Product with the same name already exists");
         }
 
@@ -92,15 +92,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductItem> getProductItems(Date date, boolean getNew) {
+    public List<ProductItem> getProductItems(Date date, boolean getNew, Integer timezoneOffset) {
         Date dateFrom = DateUtils.getMinTimeOfDay(date);
         Date dateTo = DateUtils.getMaxTimeOfDay(date);
 
-        return getProductItems(dateFrom, dateTo, getNew);
+        return getProductItems(dateFrom, dateTo, getNew, timezoneOffset);
     }
 
     @Override
-    public List<ProductItem> getProductItems(Date dateFrom, Date dateTo, boolean getNew) {
+    public List<ProductItem> getProductItems(Date dateFrom, Date dateTo, boolean getNew, Integer timezoneOffset) {
+        if (timezoneOffset != null) {
+            dateFrom = DateUtils.addMinutes(dateFrom, timezoneOffset);
+            dateTo = DateUtils.addMinutes(dateTo, timezoneOffset);
+        }
+
         return productItemRepository.getItemsBetweenDates(dateFrom, dateTo, getNew ? 1 : 0);
     }
 
@@ -121,7 +126,7 @@ public class ProductServiceImpl implements ProductService {
 
         if (item != null && item.getDate() == null) {
             statusManager.modifyItems();
-            item.setDate(new Date());
+            item.setDate(DateUtils.toUTCTime(new Date()));
 
             item = productItemRepository.save(item);
         }

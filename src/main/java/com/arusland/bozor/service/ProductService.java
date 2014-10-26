@@ -24,9 +24,9 @@ public interface ProductService {
 
     void removeProduct(Long id);
 
-    List<ProductItem> getProductItems(Date date, boolean getNew);
+    List<ProductItem> getProductItems(Date date, boolean getNew, Integer timezoneOffset);
 
-    List<ProductItem> getProductItems(Date dateFrom, Date dateTo, boolean getNew);
+    List<ProductItem> getProductItems(Date dateFrom, Date dateTo, boolean getNew, Integer timezoneOffset);
 
     List<Product> getProducts();
 

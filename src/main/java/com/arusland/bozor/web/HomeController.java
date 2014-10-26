@@ -23,28 +23,30 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String index(){
+    public String index() {
         return "home";
     }
 
     @RequestMapping("/show")
-    public String show(){
+    public String show() {
         return "show";
     }
 
     @RequestMapping("/products")
-    public String products(){
+    public String products() {
         return "products";
     }
 
     @RequestMapping("/chart")
-    public String chart(){
+    public String chart() {
         return "chart";
     }
 
     @RequestMapping("/m")
-    public String mobile(Map<String, Object> model){
-        List<ProductItemDto> items = ProductItemDto.fromList(service.getProductItems(new Date(), true));
+    public String mobile(Map<String, Object> model) {
+        // TODO: provide client timezone offset
+        int timeOffset = 0;
+        List<ProductItemDto> items = ProductItemDto.fromList(service.getProductItems(new Date(), true, timeOffset));
         model.put("items", items);
         model.put("showComments", hasComments(items));
 
@@ -52,7 +54,7 @@ public class HomeController {
     }
 
     @RequestMapping("/buy/{id}")
-    public String mobileBuyItem(@PathVariable Long id){
+    public String mobileBuyItem(@PathVariable Long id) {
         service.buyItem(id);
 
         return "redirect:/m";

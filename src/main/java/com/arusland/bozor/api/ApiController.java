@@ -28,13 +28,15 @@ public class ApiController {
 
     @ResponseBody
     @RequestMapping("/status/{token}")
-    public Status getStatusToday(@PathVariable String token) {
-        return getStatus(token, DateUtils.toStringShort(new Date()));
+    public Status getStatusToday(@PathVariable String token,
+                                 @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
+        return getStatus(token, DateUtils.toStringShort(new Date()), timeOffset);
     }
 
     @ResponseBody
     @RequestMapping("/status/{token}/{time}")
-    public Status getStatus(@PathVariable String token, @PathVariable String time) {
+    public Status getStatus(@PathVariable String token, @PathVariable String time,
+                            @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
         Status status;
         StatusResult statusResult = statusManager.hasUpdates(token);
 
@@ -42,7 +44,7 @@ public class ApiController {
             Date parsedTime = DateUtils.parseTime(time);
             boolean isToday = DateUtils.isToday(parsedTime);
 
-            List<ProductItem> items = statusResult.hasNewItems ? service.getProductItems(parsedTime, isToday) : null;
+            List<ProductItem> items = statusResult.hasNewItems ? service.getProductItems(parsedTime, isToday, timeOffset) : null;
             List<Product> products = statusResult.hasNewProducts ? service.getProducts() : null;
 
             status = new Status(statusResult.token, ProductItemDto.fromList(items),
@@ -56,11 +58,12 @@ public class ApiController {
 
     @ResponseBody
     @RequestMapping("/chart/pmp/{month}")
-    public List<ChartDataDto> getPieChartByProductInMonth(@PathVariable String month) {
+    public List<ChartDataDto> getPieChartByProductInMonth(@PathVariable String month,
+            @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
         Date monthParsed = DateUtils.parseMonth(month);
         Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
         Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
-        List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false);
+        List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false, timeOffset);
         HashMap<Product, Double> items = new HashMap<>();
 
         for (ProductItem item : productItems) {
@@ -85,11 +88,12 @@ public class ApiController {
 
     @ResponseBody
     @RequestMapping("/chart/pmt/{month}")
-    public List<ChartDataDto> getPieChartByProductTypeInMonth(@PathVariable String month) {
+    public List<ChartDataDto> getPieChartByProductTypeInMonth(@PathVariable String month,
+            @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
         Date monthParsed = DateUtils.parseMonth(month);
         Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
         Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
-        List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false);
+        List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false, timeOffset);
         HashMap<ProductType, Double> items = new HashMap<>();
 
         for (ProductItem item : productItems) {
@@ -115,11 +119,12 @@ public class ApiController {
 
     @ResponseBody
     @RequestMapping("/itemsMonth/{month}")
-    public List<StatusMonth> getItemsByMonth(@PathVariable String month) {
+    public List<StatusMonth> getItemsByMonth(@PathVariable String month,
+            @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
         Date monthParsed = DateUtils.parseMonth(month);
         Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
         Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
-        List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false);
+        List<ProductItem> productItems = service.getProductItems(timeFrom, timeTo, false, timeOffset);
         List<StatusMonth> result = new LinkedList<>();
 
         for (ProductItem item : productItems) {
