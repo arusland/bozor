@@ -29,14 +29,14 @@ public class ApiController {
     @ResponseBody
     @RequestMapping("/status/{token}")
     public Status getStatusToday(@PathVariable String token,
-                                 @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
+                                 @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) throws InterruptedException {
         return getStatus(token, DateUtils.toStringShort(new Date()), timeOffset);
     }
 
     @ResponseBody
     @RequestMapping("/status/{token}/{time}")
     public Status getStatus(@PathVariable String token, @PathVariable String time,
-                            @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
+                            @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) throws InterruptedException {
         Status status;
         StatusResult statusResult = statusManager.hasUpdates(token);
 
@@ -59,7 +59,7 @@ public class ApiController {
     @ResponseBody
     @RequestMapping("/chart/pmp/{month}")
     public List<ChartDataDto> getPieChartByProductInMonth(@PathVariable String month,
-            @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
+                                                          @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
         Date monthParsed = DateUtils.parseMonth(month);
         Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
         Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
@@ -79,7 +79,7 @@ public class ApiController {
 
         LinkedList<ChartDataDto> result = new LinkedList<>();
 
-        for(Map.Entry<Product, Double> entry : items.entrySet()){
+        for (Map.Entry<Product, Double> entry : items.entrySet()) {
             result.add(new ChartDataDto(entry.getKey().getName(), entry.getValue()));
         }
 
@@ -89,7 +89,7 @@ public class ApiController {
     @ResponseBody
     @RequestMapping("/chart/pmt/{month}")
     public List<ChartDataDto> getPieChartByProductTypeInMonth(@PathVariable String month,
-            @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
+                                                              @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
         Date monthParsed = DateUtils.parseMonth(month);
         Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
         Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
@@ -110,7 +110,7 @@ public class ApiController {
 
         LinkedList<ChartDataDto> result = new LinkedList<>();
 
-        for(Map.Entry<ProductType, Double> entry : items.entrySet()){
+        for (Map.Entry<ProductType, Double> entry : items.entrySet()) {
             result.add(new ChartDataDto(entry.getKey().getName(), entry.getValue()));
         }
 
@@ -120,7 +120,7 @@ public class ApiController {
     @ResponseBody
     @RequestMapping("/itemsMonth/{month}")
     public List<StatusMonth> getItemsByMonth(@PathVariable String month,
-            @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
+                                             @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) {
         Date monthParsed = DateUtils.parseMonth(month);
         Date timeFrom = DateUtils.getMinTimeOfMonth(monthParsed);
         Date timeTo = DateUtils.getMaxTimeOfMonth(monthParsed);
@@ -201,7 +201,7 @@ public class ApiController {
         return status;
     }
 
-    private double calcPrice(String price){
+    private double calcPrice(String price) {
         return ExpressionUtils.eval(price);
     }
 }

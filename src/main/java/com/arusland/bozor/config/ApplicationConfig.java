@@ -93,6 +93,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and()
                 .formLogin()
                     .loginPage("/login")
+                    .successHandler(new DefaultAuthenticationSuccessHandler())
                     .failureUrl("/login?error").permitAll().and()
                 .csrf().disable();
         }
