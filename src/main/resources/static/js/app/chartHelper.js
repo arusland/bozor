@@ -1,7 +1,7 @@
 'use strict';
 
-bozorApp.factory('chartHelper', ['productSvc',
-    function (productSvc) {
+bozorApp.factory('chartHelper', ['productSvc', 'notification',
+    function (productSvc, notification) {
         function init($scope, $routeParams, prefix, title) {
             moment.locale(getCurrentLocale());
             var month = moment($routeParams.month, _shortMonthFormat);
@@ -29,7 +29,7 @@ bozorApp.factory('chartHelper', ['productSvc',
             productSvc[methodName]({month: $routeParams.month}, function (data) {
                 drawChart(data, title, $('#_wholePrice').val());
             }, function () {
-                alert('Load items failed')
+                notification.error('Load items failed')
             });
         }
 

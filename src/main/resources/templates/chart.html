@@ -12,6 +12,7 @@
           rel="stylesheet" media="screen" />
     <link href="#" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap-theme.min.css}"
           rel="stylesheet" media="screen" />
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/toastr.min.css}"/>
 </head>
 <body class="body-nav">
 <div ng-view=""></div>
@@ -22,6 +23,7 @@
 
 
 <script src="#" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+<script src="#" th:src="@{/js/toastr.js}"></script>
 <script src="#" th:src="@{/js/moment-with-locales.min.js}"></script>
 <script src="#" th:src="@{/webjars/angularjs/1.2.25/angular.min.js}"></script>
 <script src="#" th:src="@{/webjars/angularjs/1.2.25/angular-route.min.js}"></script>
@@ -39,6 +41,7 @@
 <script src="#" th:src="@{/js/app/chartHelper.js}"></script>
 <script src="#" th:src="@{/js/app/pieChartByProductByMonthController.js}"></script>
 <script src="#" th:src="@{/js/app/pieChartByProductTypeByMonthController.js}"></script>
+<script src="#" th:src="@{/js/app/notificationService.js}"></script>
 
 <script type="text/javascript">
     $(function () {

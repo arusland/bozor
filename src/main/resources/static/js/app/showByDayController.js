@@ -1,30 +1,30 @@
 'use strict';
 
-bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$timeout', 'dialogsSvc', '$routeParams', 'selectorPresenter',
-    function ($scope, productSvc, $modal, $timeout, dialogsSvc, $routeParams, selectorPresenter) {
-        $scope.modified = false;
-        moment.locale(getCurrentLocale());
-        document.title = $('#_titleshow').val();
+bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$timeout', 'dialogsSvc',
+    '$routeParams', 'selectorPresenter', "notification",
+    function ($scope, productSvc, $modal, $timeout, dialogsSvc, $routeParams, selectorPresenter, notification) {
+        init();
 
-        var day = moment($routeParams.time, _shortDateFormat);
+        function init() {
+            $scope.modified = false;
+            moment.locale(getCurrentLocale());
+            document.title = $('#_titleshow').val();
+            var day = moment($routeParams.time, _shortDateFormat);
+            if (!day.isValid()) {
+                day = moment();
+                $routeParams.time = day.format(_shortDateFormat);
+            }
+            $scope.today = day.format('dddd, MMMM Do YYYY').capitalize();
+            $scope.dayComment = dayComment(day);
+            $scope.isToday = isToday(day);
+            $scope.commands = getMonthCommands(day, 'm');
+            var prevDay = day.clone().subtract(1, 'day').format(_shortDateFormat);
+            var nextDay = day.clone().add(1, 'day').format(_shortDateFormat);
+            $('#prevDay').attr('href', '#d' + prevDay);
+            $('#nextDay').attr('href', '#d' + nextDay);
 
-        if (!day.isValid()) {
-            day = moment();
-            $routeParams.time = day.format(_shortDateFormat);
+            $scope.day = day;
         }
-
-        $scope.today = day.format('dddd, MMMM Do YYYY').capitalize();
-        $scope.dayComment = dayComment(day);
-        $scope.isToday = isToday(day);
-        $scope.commands = getMonthCommands(day, 'm');
-
-        var prevDay = day.clone().subtract(1, 'day').format(_shortDateFormat);
-        var nextDay = day.clone().add(1, 'day').format(_shortDateFormat);
-
-        $('#prevDay').attr('href', '#d' + prevDay);
-        $('#nextDay').attr('href', '#d' + nextDay);
-
-
 
         function onNewItems(newItems) {
             if (itemsAreDifferent(newItems, $scope.oldItems)) {
@@ -35,7 +35,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
 
         function onNewItem(newItem) {
             if (!$scope.isToday) {
-                newItem.date = day.format(_longDateFormat);
+                newItem.date = $scope.day.format(_longDateFormat);
                 newItem.bought = true;
             }
 
@@ -48,7 +48,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
 
         function handleError(error) {
             if (error)
-                alert(error);
+                notification.error(error);
         }
 
         function canCheckStatus() {
@@ -103,7 +103,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
                     $timeout($scope.saveChanges, 1000);
                 }
             }, function () {
-                alert('Save failed!');
+                notification.error('Save failed!');
             });
         }
 
@@ -139,7 +139,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
             $scope.items.remove(item);
             productSvc.removeProductItem({itemKey: item.id}, function () {
             }, function () {
-                alert('Save item failed')
+                notification.error('Save failed');
             });
         };
 
@@ -148,7 +148,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
                     item.date = itemSaved.date;
                 },
                 function () {
-                    alert('Save item failed')
+                    notification.error('Save failed');
                 });
 
             item.bought = true;

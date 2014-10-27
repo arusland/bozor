@@ -1,7 +1,8 @@
 'use strict';
 
-bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '$timeout', 'dialogsSvc', '$routeParams', 'selectorPresenter',
-    function ($scope, productSvc, $modal, $timeout, dialogsSvc, $routeParams, selectorPresenter) {
+bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '$timeout', 'dialogsSvc',
+    '$routeParams', 'selectorPresenter', 'notification',
+    function ($scope, productSvc, $modal, $timeout, dialogsSvc, $routeParams, selectorPresenter, notification) {
         init();
 
         $scope.dayName = function (dayStr) {
@@ -69,7 +70,7 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
                 $scope.items = data;
                 calcPrices();
             }, function () {
-                alert('Load items failed')
+                notification.error('Load items failed')
             });
         }
     }]);
