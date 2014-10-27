@@ -30,7 +30,8 @@ public class ApiController {
     @RequestMapping("/status/{token}")
     public Status getStatusToday(@PathVariable String token,
                                  @RequestHeader(value = "Bzr-TimeOffset", required = false) Integer timeOffset) throws InterruptedException {
-        return getStatus(token, DateUtils.toStringShort(new Date()), timeOffset);
+        Date now = DateUtils.toUTCTime(new Date(), timeOffset);
+        return getStatus(token, DateUtils.toStringShort(now), timeOffset);
     }
 
     @ResponseBody
@@ -42,7 +43,7 @@ public class ApiController {
 
         if (statusResult.hasUpdates) {
             Date parsedTime = DateUtils.parseTime(time);
-            boolean isToday = DateUtils.isToday(parsedTime);
+            boolean isToday = DateUtils.isToday(parsedTime, timeOffset);
 
             List<ProductItem> items = statusResult.hasNewItems ? service.getProductItems(parsedTime, isToday, timeOffset) : null;
             List<Product> products = statusResult.hasNewProducts ? service.getProducts() : null;

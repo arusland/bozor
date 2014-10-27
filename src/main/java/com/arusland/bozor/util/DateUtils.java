@@ -116,7 +116,7 @@ public final class DateUtils {
         return result.getTime();
     }
 
-    public static boolean isToday(Date date) {
+    public static boolean isToday(Date date, Integer timeOffset) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
@@ -124,11 +124,23 @@ public final class DateUtils {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
+
         Calendar calNow = Calendar.getInstance();
+        calNow.setTime(DateUtils.toUTCTime(new Date(), timeOffset));
 
         return year == calNow.get(Calendar.YEAR) &&
                 month == calNow.get(Calendar.MONTH) &&
                 day == calNow.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static Date toUTCTime(Date input, Integer timeOffset) {
+        Date result = toUTCTime(input);
+
+        if (timeOffset != null) {
+            return addMinutes(result, -timeOffset);
+        }
+
+        return result;
     }
 
     public static Date toUTCTime(Date input) {
