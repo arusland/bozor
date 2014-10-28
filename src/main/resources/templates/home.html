@@ -40,7 +40,7 @@
         <div id="pane">
             <ul>
                 <li ng-repeat="item in items | orderBy:'name'" ng-click="editItem(item)" ng-class="{bought:item.bought}">
-                    {{item.name}}
+                    <span class="name">{{item.name}}</span>
                     <span class="comment" title="{{ getComment(item, false) }}">{{ getComment(item, true) }}</span>
                     <span class="right"><a ng-click="removeItem(item)" th:title="#{home.itemRemoveTitle}">
                         <span class="glyphicon glyphicon-remove"></span></a></span>

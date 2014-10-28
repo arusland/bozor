@@ -81,15 +81,18 @@ div#pane ul li span.right {
     padding-top: 7px;
 }
 
-div#pane ul li span.comment {
-    color: #a0a0a0;
-    font-size: 15px;
-    font-style: italic;
+div#pane ul li.bought {
+    background-color: rgba(160, 160, 160, 0.38);
 }
 
-div#pane ul li.bought {
+div#pane ul li.bought span.name {
     text-decoration: line-through;
-    background-color: rgba(160, 160, 160, 0.38);
+}
+
+div#pane ul li span.comment {
+    color: #a0a0a0;
+    font-size: 14px;
+    font-style: italic;
 }
 
 div.total {
