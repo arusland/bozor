@@ -6,16 +6,16 @@
     <div class="modal-body">
         <div class="form-group">
             <label th:text="#{home.itemamount}">Amount:</label>
-            <input type="text" class="form-control" ng-model="item.amount" numeric="numeric"/>
+            <input type="text" class="form-control" ng-model="item.amount" numeric="numeric" on-enter="ok()"/>
         </div>
         <div class="form-group">
             <label th:text="#{home.itemcomment}">Comment:</label>
-            <input type="text" class="form-control" ng-model="item.comment"/>
+            <input type="text" class="form-control" ng-model="item.comment" on-enter="ok()"/>
         </div>
 
         <div class="form-group">
             <label th:text="#{home.itemprice}">Price:</label>
-            <input type="text" class="form-control" ng-model="item.price"/>
+            <input type="text" class="form-control" ng-model="item.price" on-enter="ok()"/>
         </div>
 
         <div class="alert alert-danger" ng-show="error">{{ error }}</div>
