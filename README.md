@@ -6,7 +6,7 @@ Shopping list &amp; personal budget
 * `mvn package`
 * Put war-file into any servlet container
 
-## Powered by
+## Based on
 * Spring Boot
 * Thymeleaf
 * AngularJS
