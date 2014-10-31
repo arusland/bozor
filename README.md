@@ -5,6 +5,7 @@ Shopping list &amp; personal budget
 * Configure `aplication.properties`
 * `mvn package`
 * Put war-file into any servlet container
+* Or you can run `java -jar bozor-x-x.jar`
 
 ## Based on
 * Spring Boot
