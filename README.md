@@ -1,11 +1,20 @@
 # Bozor
 Shopping list &amp; personal budget
 
+# Features
+* Adding shopping items
+* Buying items on mobile version
+* Editing (setting costs) items
+* Showing all items for month
+* Showing chart by products
+* Showing chart by product types
+
 ## Install
 * Configure `aplication.properties`
 * `mvn package`
 * Put war-file into any servlet container
 * Or you can run `java -jar bozor-x-x.jar`
+* Also can be installed in OpenShift
 
 ## Based on
 * Spring Boot
