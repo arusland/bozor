@@ -1,9 +1,9 @@
 package com.arusland.bozor.config;
 
-import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
 import javax.sql.DataSource;
 
@@ -30,7 +30,7 @@ public class DataSourceConfig {
         String databaseName = System.getenv("OPENSHIFT_APP_NAME");
         String jdbcUrl;
 
-        if (host != null || databaseName != null || port != null) {
+        if (host != null && databaseName != null && port != null) {
             jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + databaseName
                     + "?useUnicode=yes&characterEncoding=UTF-8";
         } else {
