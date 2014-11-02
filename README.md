@@ -19,6 +19,7 @@ Shopping list &amp; personal budget
 ## Based on
 * Spring Boot
 * Thymeleaf
+* Flyway
 * AngularJS
 * Twitter Bootstrap
 * WebJars
