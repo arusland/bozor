@@ -3,17 +3,21 @@
 bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$timeout', 'dialogsSvc',
     '$routeParams', 'selectorPresenter', "notification",
     function ($scope, productSvc, $modal, $timeout, dialogsSvc, $routeParams, selectorPresenter, notification) {
+        var LOCAL_TIMEOUT = 3 * 1000; // in milliseconds
         init();
 
         function init() {
             $scope.modified = false;
+            $scope.lastUpdate = null;
             moment.locale(getCurrentLocale());
             document.title = $('#_titleshow').val();
             var day = moment($routeParams.time, _shortDateFormat);
+
             if (!day.isValid()) {
                 day = moment();
                 $routeParams.time = day.format(_shortDateFormat);
             }
+
             $scope.today = day.format('dddd, MMMM Do YYYY').capitalize();
             $scope.dayComment = dayComment(day);
             $scope.isToday = isToday(day);
@@ -27,10 +31,36 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
         }
 
         function onNewItems(newItems) {
-            if (itemsAreDifferent(newItems, $scope.oldItems)) {
-                $scope.items = newItems;
-                $scope.oldItems = arrayClone(newItems);
+            handleUpdateLocalItems(function () {
+                if (itemsAreDifferent(newItems, $scope.oldItems)) {
+                    $scope.items = newItems;
+                    $scope.oldItems = arrayClone(newItems);
+                }
+            });
+        }
+
+        function handleUpdateLocalItems(handler) {
+            if (!$scope.lastUpdate) {
+                handler();
+                return true;
             }
+
+            var ms = moment().diff($scope.lastUpdate);
+
+            if (ms >= LOCAL_TIMEOUT) {
+                handler();
+                return true;
+            }
+
+            console.log('skip updating local items');
+
+            $timeout(function () {
+                handleUpdateLocalItems(function () {
+                    selectorPresenter.repeatQuery();
+                });
+            }, 1000);
+
+            return false;
         }
 
         function onNewItem(newItem) {
@@ -63,8 +93,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
             function (newValue, oldValue) {
                 if (newValue && oldValue) {
                     $scope.modified = true;
-
-                    //console.log('Items modified');
+                    $scope.lastUpdate = moment();
                 }
             },
             true
@@ -74,10 +103,11 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
             if ($scope.modified) {
                 $scope.modified = false;
                 var newItems = arrayGetChanges($scope.items, $scope.oldItems);
-                $scope.oldItems = arrayClone($scope.items);
 
                 if (newItems.length > 0) {
                     console.log('items modified count: ' + newItems.length);
+
+                    $scope.oldItems = arrayClone($scope.items);
 
                     var counter = 0;
                     saveProductItem(newItems[0], function () {
@@ -117,17 +147,17 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
             return formatPrice(total);
         };
 
-        $scope.calcPrice = function(item){
+        $scope.calcPrice = function (item) {
             var price = calcExpressionWithError(item.price);
 
-            if (price){
+            if (price) {
                 return formatPrice(price);
             }
 
             return  $('#_invalidexp').val();
         };
 
-        $scope.validatePrice = function(item){
+        $scope.validatePrice = function (item) {
             return isExpressionValid(item.price) ? '' : 'has-error';
         };
 
@@ -168,7 +198,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
             return result;
         };
 
-        $scope.getItemClass = function(item){
+        $scope.getItemClass = function (item) {
             return item.price == null || item.price == '' ? 'danger' : '';
         }
     }]);
