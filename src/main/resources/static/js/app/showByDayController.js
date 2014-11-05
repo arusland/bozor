@@ -107,6 +107,12 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
                 if (newItems.length > 0) {
                     console.log('items modified count: ' + newItems.length);
 
+                    angular.forEach(newItems, function (item) {
+                        if (item.price) {
+                            item.bought = true;
+                        }
+                    });
+
                     $scope.oldItems = arrayClone($scope.items);
 
                     var counter = 0;

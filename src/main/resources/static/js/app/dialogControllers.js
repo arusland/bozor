@@ -20,6 +20,10 @@ var ItemEditModalCtrl = function ($scope, $modalInstance, item, productSvc) {
             item.comment = newItem.comment;
             item.price = newItem.price;
 
+            if (item.price) {
+                item.bought = true;
+            }
+
             $modalInstance.close(item);
         }, function (error) {
             $scope.error = error.statusText || error;

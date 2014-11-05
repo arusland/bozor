@@ -59,6 +59,11 @@ public class ProductServiceImpl implements ProductService {
         statusManager.modifyItems();
 
         ProductItem item = productItem.toItem();
+
+        // buy item if it has price and not bought yet
+        if (StringUtils.isNotBlank(item.getPrice()) && item.getDate() == null) {
+            setItemBought(item);
+        }
         item.setProduct(productRepository.getOne(productItem.getProductId()));
 
         return productItemRepository.save(item);
@@ -126,11 +131,14 @@ public class ProductServiceImpl implements ProductService {
 
         if (item != null && item.getDate() == null) {
             statusManager.modifyItems();
-            item.setDate(DateUtils.toUTCTime(new Date()));
-
+            setItemBought(item);
             item = productItemRepository.save(item);
         }
 
         return ProductItemDto.fromItem(item);
+    }
+
+    private static void setItemBought(ProductItem item) {
+        item.setDate(DateUtils.toUTCTime(new Date()));
     }
 }
