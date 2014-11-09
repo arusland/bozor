@@ -2,6 +2,7 @@ package com.arusland.bozor.service.impl;
 
 import com.arusland.bozor.service.StatusManager;
 import com.arusland.bozor.dto.StatusResult;
+import org.springframework.security.crypto.codec.Hex;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
  */
 @Service
 public class StatusManagerImpl implements StatusManager {
-    private static Pattern TOKEN_PATTERN = Pattern.compile("([A-Fa-z\\d]{2})([A-Fa-z\\d]{2})");
+    private static Pattern TOKEN_PATTERN = Pattern.compile("^[A-Fa-f\\d]{4}$");
     private static Object lock = new Object();
     private static byte itemsCounter = 1;
     private static byte productsCounter = 1;
@@ -21,8 +22,9 @@ public class StatusManagerImpl implements StatusManager {
         Matcher match = TOKEN_PATTERN.matcher(token);
 
         if (match.find()) {
-            byte itemsC = Byte.parseByte(match.group(1), 16);
-            byte productsC = Byte.parseByte(match.group(2), 16);
+            byte[] parts = Hex.decode(token);
+            byte itemsC = parts[0];
+            byte productsC = parts[1];
 
             return new StatusResult(itemsC != itemsCounter, productsC != productsCounter, getToken());
         }
