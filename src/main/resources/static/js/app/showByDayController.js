@@ -1,6 +1,6 @@
 'use strict';
 
-bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$timeout', 'dialogsSvc',
+bozorApp.controller('ShowDayController', ['$scope', 'productSvc', '$modal', '$timeout', 'dialogsSvc',
     '$routeParams', 'selectorPresenter', "notification",
     function ($scope, productSvc, $modal, $timeout, dialogsSvc, $routeParams, selectorPresenter, notification) {
         var LOCAL_TIMEOUT = 3 * 1000; // in milliseconds
@@ -32,8 +32,11 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
 
         function onNewItems(newItems) {
             handleUpdateLocalItems(function () {
-                if (itemsAreDifferent(newItems, $scope.oldItems)) {
-                    $scope.items = newItems;
+                if (!$scope.items) {
+                    $scope.items = [];
+                }
+
+                if (mergeItems(newItems, $scope.items)) {
                     $scope.oldItems = arrayClone(newItems);
                 }
             });
@@ -102,6 +105,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
         $scope.saveChanges = function () {
             if ($scope.modified) {
                 $scope.modified = false;
+
                 var newItems = arrayGetChanges($scope.items, $scope.oldItems);
 
                 if (newItems.length > 0) {
@@ -160,7 +164,7 @@ bozorApp.controller('ShowDayController', [ '$scope', 'productSvc', '$modal', '$t
                 return formatPrice(price);
             }
 
-            return  $('#_invalidexp').val();
+            return $('#_invalidexp').val();
         };
 
         $scope.validatePrice = function (item) {

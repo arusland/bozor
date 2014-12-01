@@ -120,6 +120,7 @@ var arrayGetChanges = function (newArray, oldArray) {
 
     for (var i = 0; i < newArray.length; i++) {
         var objNew = newArray[i];
+        var found = false;
 
         for (var j = 0; j < oldArray.length; j++) {
             var objOld = oldArray[j]
@@ -127,12 +128,18 @@ var arrayGetChanges = function (newArray, oldArray) {
             if (objNew.id == objOld.id) {
                 if (objNew.price != objOld.price
                     || objNew.comment != objOld.comment
+                    || objNew.date !== objOld.date
                     || objNew.amount != objOld.amount) {
                     result.push(objNew);
                 }
 
+                found = true;
                 break;
             }
+        }
+
+        if (!found){
+            result.push(objNew);
         }
     }
 
@@ -211,6 +218,83 @@ var itemsAreDifferent = function (newArray, oldArray) {
     }
 
     return false;
+};
+
+var mergeItems = function (newArray, oldArray) {
+    if (!newArray || !oldArray) {
+        if (oldArray){
+            oldArray.length = 0;
+        }
+
+        return true;
+    }
+
+    var itemsToAdd = [];
+    var itemsFound = [];
+    var modified = false;
+
+    for (var i = 0; i < newArray.length; i++) {
+        var objNew = newArray[i];
+        var found = false;
+
+        for (var j = 0; j < oldArray.length; j++) {
+            var objOld = oldArray[j]
+
+            if (objNew.id === objOld.id) {
+                itemsFound.push(objOld);
+
+                // update item if it changed
+                if (objNew.price !== objOld.price
+                    || objNew.date !== objOld.date
+                    || objNew.amount !== objOld.amount
+                    || objNew.comment !== objOld.comment
+                    || objNew.productId !== objOld.productId) {
+
+                    objOld.price = objNew.price;
+                    objOld.date = objNew.date;
+                    objOld.amount = objNew.amount;
+                    objOld.comment = objNew.comment;
+                    objOld.productId = objNew.productId;
+                    modified = true;
+                }
+
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            itemsToAdd.push(objNew);
+        }
+    }
+
+    var itemsToRemove = [];
+
+    for (var j = 0; j < oldArray.length; j++) {
+        var objOld = oldArray[j];
+
+        if (itemsFound.indexOf(objOld) < 0){
+            itemsToRemove.push(objOld);
+        }
+    }
+
+    for (var j = 0; j < itemsToRemove.length; j++) {
+        var objOld = itemsToRemove[j];
+
+        var index = oldArray.indexOf(objOld);
+
+        if (index >= 0){
+            oldArray.splice(index, 1);
+            modified = true;
+        }
+    }
+
+    for (var j = 0; j < itemsToAdd.length; j++) {
+        oldArray.push(itemsToAdd[j]);
+        modified = true;
+    }
+
+    return modified;
 };
 
 function getMonthName(mmt, index, skipYear) {

@@ -46,7 +46,7 @@
             <th style="width: 50px;"></th>
             </thead>
             <tbody>
-            <tr ng-repeat="item in items | orderBy:'name'" class="{{getItemClass(item)}}">
+            <tr ng-repeat="item in items" class="{{getItemClass(item)}}">
                 <td><a href="/products" tabindex="-1">{{item.name}}</a></td>
                 <td class="pull-center">{{itemComment(item)}}</td>
                 <td class="pull-center">

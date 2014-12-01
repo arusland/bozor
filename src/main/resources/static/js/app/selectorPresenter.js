@@ -18,11 +18,13 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
 
         var init = function (id, _onNewItems, _onNewItem, applyWrapper, _handleError, _canCheckStatus, _time) {
             $('<select style="width:100%" id="selector" data-placeholder="' + strGetWhatelse() +
-                '" tabindex="1" multiple=""><option value=""></option></select>')
+            '" tabindex="1" multiple=""><option value=""></option></select>')
                 .appendTo($("#" + id));
 
-            $('#selector').chosen({create_option: onCreateProduct, skip_no_results: true,
-                create_option_text: $('#_addproduct').val()});
+            $('#selector').chosen({
+                create_option: onCreateProduct, skip_no_results: true,
+                create_option_text: $('#_addproduct').val()
+            });
 
             $('#selector').on('change', function (evt, params) {
                 var selected = $('#selector :selected');
@@ -39,7 +41,9 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
             onNewItem = _onNewItem;
             onNewItems = _onNewItems;
             time = _time || '';
-            canCheckStatus = _canCheckStatus || function() {return true;};
+            canCheckStatus = _canCheckStatus || function () {
+                return true;
+            };
             lastToken = 0;
             currentProducts = null;
             inited = true;
@@ -59,7 +63,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
                 lastToken = data.token;
                 handleErrorCaller(null);
 
-                if (data.updates === undefined){
+                if (data.updates === undefined) {
                     handleErrorCaller('Loading data failed');
                     return;
                 }
@@ -95,9 +99,9 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
                 price: null
             };
 
-            onNewItem(item);
             productSvc.saveProductItem(item, function (data) {
                 item.id = data.id;
+                onNewItem(item);
             }, handleError);
             //TODO: refresh list if error
         };
@@ -152,12 +156,12 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
             onTimeout(true);
         };
 
-        function reset(){
+        function reset() {
             lastToken = 0;
             currentProducts = null;
         };
 
-        function stop(){
+        function stop() {
             reset();
             inited = false;
         };
