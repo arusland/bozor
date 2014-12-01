@@ -31,8 +31,8 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
             return  $('#_invalidexp').val();
         };
 
-        function calcAvgDayPrice(total) {
-            return total / parseInt(moment().format('D'));
+        function calcAvgDayPrice(total, count) {
+            return count > 0 ? total / count : 0;
         }
 
         function calcPrices() {
@@ -43,7 +43,7 @@ bozorApp.controller('ShowMonthController', [ '$scope', 'productSvc', '$modal', '
             });
 
             $scope.monthPrice = formatPrice(total);
-            $scope.avgDayPrice = formatPrice(calcAvgDayPrice(total));
+            $scope.avgDayPrice = formatPrice(calcAvgDayPrice(total, $scope.items.length));
         };
 
         function init() {
