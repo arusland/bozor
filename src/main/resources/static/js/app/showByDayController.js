@@ -9,6 +9,7 @@ bozorApp.controller('ShowDayController', ['$scope', 'productSvc', '$modal', '$ti
         function init() {
             $scope.modified = false;
             $scope.lastUpdate = null;
+            $scope.oldItems = [];
             moment.locale(getCurrentLocale());
             document.title = $('#_titleshow').val();
             var day = moment($routeParams.time, _shortDateFormat);
@@ -67,12 +68,14 @@ bozorApp.controller('ShowDayController', ['$scope', 'productSvc', '$modal', '$ti
         }
 
         function onNewItem(newItem) {
+            $scope.items.push(newItem);
+        }
+
+        function preAddingNewItem(newItem) {
             if (!$scope.isToday) {
                 newItem.date = $scope.day.format(_longDateFormat);
                 newItem.bought = true;
             }
-
-            $scope.items.push(newItem);
         }
 
         function applyWrapper(handler) {
@@ -89,7 +92,7 @@ bozorApp.controller('ShowDayController', ['$scope', 'productSvc', '$modal', '$ti
         }
 
         selectorPresenter.init('selector-place', onNewItems, onNewItem, applyWrapper,
-            handleError, canCheckStatus, $routeParams.time);
+            handleError, canCheckStatus, $routeParams.time, preAddingNewItem);
 
         $scope.$watch(
             "items",

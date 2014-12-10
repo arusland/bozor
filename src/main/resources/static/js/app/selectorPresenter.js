@@ -7,6 +7,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
         var handleErrorCaller;
         var onNewItem;
         var onNewItems;
+        var preAddingNewItem;
         var inited = false;
         var currentProducts = null;
         var canCheckStatus;
@@ -16,7 +17,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
 
         $timeout(onTimeout, WORK_TIMEOUT);
 
-        var init = function (id, _onNewItems, _onNewItem, applyWrapper, _handleError, _canCheckStatus, _time) {
+        var init = function (id, _onNewItems, _onNewItem, applyWrapper, _handleError, _canCheckStatus, _time, _preAdding) {
             $('<select style="width:100%" id="selector" data-placeholder="' + strGetWhatelse() +
             '" tabindex="1" multiple=""><option value=""></option></select>')
                 .appendTo($("#" + id));
@@ -40,6 +41,7 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
             handleErrorCaller = _handleError;
             onNewItem = _onNewItem;
             onNewItems = _onNewItems;
+            preAddingNewItem = _preAdding || function(){};
             time = _time || '';
             canCheckStatus = _canCheckStatus || function () {
                 return true;
@@ -98,6 +100,8 @@ bozorApp.factory('selectorPresenter', ['productSvc', '$timeout', 'dialogsSvc',
                 amount: null,
                 price: null
             };
+
+            preAddingNewItem(item);
 
             productSvc.saveProductItem(item, function (data) {
                 item.id = data.id;
