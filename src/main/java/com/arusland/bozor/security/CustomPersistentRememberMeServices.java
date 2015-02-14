@@ -50,7 +50,7 @@ public class CustomPersistentRememberMeServices extends
 
     @Autowired
     public CustomPersistentRememberMeServices(Environment env, org.springframework.security.core.userdetails.UserDetailsService userDetailsService) {
-        super(env.getProperty("jhipster.security.rememberme.key"), userDetailsService);
+        super(env.getProperty("bozor.rememberme.key"), userDetailsService);
         random = new SecureRandom();
     }
 
@@ -81,7 +81,7 @@ public class CustomPersistentRememberMeServices extends
 
     @Override
     protected void onLoginSuccess(HttpServletRequest request, HttpServletResponse response, Authentication successfulAuthentication) {
-        String login = successfulAuthentication.getName();
+        String login = successfulAuthentication.getName().toLowerCase();
 
         log.debug("Creating new persistent login for user {}", login);
 
