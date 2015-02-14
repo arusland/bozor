@@ -1,5 +1,6 @@
 package com.arusland.bozor.config;
 
+import com.arusland.bozor.security.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -14,6 +15,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -76,6 +78,9 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         @Autowired
         private SecurityProperties security;
 
+        @Autowired
+        private RememberMeServices rememberMeServices;
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
@@ -94,13 +99,16 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login")
                     .failureUrl("/login?error").permitAll().and()
-                .csrf().disable();
+                .csrf().disable()
+                .rememberMe()
+                    .rememberMeServices(rememberMeServices)
+                    .key("bozorkey");
         }
 
         @Override
         public void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.inMemoryAuthentication()
-                    .withUser("admin").password(adminPassword)
+                    .withUser(SecurityConstants.ADMIN_USER_NAME).password(adminPassword)
                     .roles("ADMIN", "USER");
         }
     }
