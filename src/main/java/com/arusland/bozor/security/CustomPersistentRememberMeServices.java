@@ -2,6 +2,7 @@ package com.arusland.bozor.security;
 
 import com.arusland.bozor.domain.PersistentToken;
 import com.arusland.bozor.repository.PersistentTokenRepository;
+import com.arusland.bozor.util.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.SecureRandom;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -31,16 +31,12 @@ import java.util.Date;
 @Service
 public class CustomPersistentRememberMeServices extends
         AbstractRememberMeServices {
-
     private final Logger log = LoggerFactory.getLogger(CustomPersistentRememberMeServices.class);
 
     // Token is valid for one month
     private static final int TOKEN_VALIDITY_DAYS = 31;
-
     private static final int TOKEN_VALIDITY_SECONDS = 60 * 60 * 24 * TOKEN_VALIDITY_DAYS;
-
     private static final int DEFAULT_SERIES_LENGTH = 16;
-
     private static final int DEFAULT_TOKEN_LENGTH = 16;
 
     private final SecureRandom random;
@@ -63,7 +59,7 @@ public class CustomPersistentRememberMeServices extends
 
         // Token also matches, so login is valid. Update the token value, keeping the *same* series number.
         log.debug("Refreshing persistent login token for user '{}', series '{}'", login, token.getSeries());
-        token.setTokenDate(new Date());
+        token.setTokenDate(DateUtils.nowUTC());
         token.setTokenValue(generateTokenData());
         token.setIpAddress(request.getRemoteAddr());
         token.setUserAgent(request.getHeader("User-Agent"));
@@ -90,7 +86,7 @@ public class CustomPersistentRememberMeServices extends
             token.setSeries(generateSeriesData());
             token.setUserName(login);
             token.setTokenValue(generateTokenData());
-            token.setTokenDate(new Date());
+            token.setTokenDate(DateUtils.nowUTC());
             token.setIpAddress(request.getRemoteAddr());
             token.setUserAgent(request.getHeader("User-Agent"));
 
@@ -158,11 +154,9 @@ public class CustomPersistentRememberMeServices extends
             throw new CookieTheftException("Invalid remember-me token (Series/token) mismatch. Implies previous cookie theft attack.");
         }
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(token.getTokenDate());
-        cal.add(Calendar.DAY_OF_MONTH, TOKEN_VALIDITY_DAYS);
+        Date expDate = DateUtils.addDays(token.getTokenDate(), TOKEN_VALIDITY_DAYS);
 
-        if (cal.getTime().before(new Date())) {
+        if (expDate.before(DateUtils.nowUTC())) {
             persistentTokenRepository.delete(token);
             throw new RememberMeAuthenticationException("Remember-me login has expired");
         }

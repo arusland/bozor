@@ -13,6 +13,8 @@ import java.util.TimeZone;
  */
 public final class DateUtils {
     private final static long MILLIS_IN_MINUTE = 60 * 1000;
+    private static final long MILLIS_IN_HOUR = MILLIS_IN_MINUTE * 60;
+    private static final long MILLIS_IN_DAY = MILLIS_IN_HOUR * 24;
     private final static SimpleDateFormat DF_FULL = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH);
     private final static SimpleDateFormat DF_SHORT = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH);
     private final static SimpleDateFormat DF_MONTH = new SimpleDateFormat("yyyyMM", Locale.ENGLISH);
@@ -21,6 +23,7 @@ public final class DateUtils {
     static {
         DF_FULL_UTC.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
+
 
     public static DateFormat getFullDateFormat() {
         return DF_FULL;
@@ -154,7 +157,15 @@ public final class DateUtils {
         }
     }
 
+    public static Date nowUTC(){
+        return toUTCTime(new Date());
+    }
+
     public static Date addMinutes(Date time, long mins) {
         return new Date(time.getTime() + mins * MILLIS_IN_MINUTE);
+    }
+
+    public static Date addDays(Date time, long days) {
+        return new Date(time.getTime() + days * MILLIS_IN_DAY);
     }
 }
