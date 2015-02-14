@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS `persistent_token` (
   `user_agent` varchar(255) DEFAULT NULL,
   `ip_address` varchar(39) DEFAULT NULL,
   `token_date` datetime NOT NULL,
-  PRIMARY KEY (`series`),
+  PRIMARY KEY (`series`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

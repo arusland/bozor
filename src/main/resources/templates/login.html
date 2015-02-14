@@ -23,8 +23,8 @@
             <input type="password" name="password" id="password" th:attr="placeholder=#{login.password}" class="form-control"/>
         </div>
         <div class="form-group">
-            <label for="rememberMe" th:text="#{login.rememberme}">Remember me</label>
-            <input type="checkbox" name="rememberMe" id="rememberMe" class="form-control"/>
+            <input type="checkbox" name="_spring_security_remember_me" checked="checked"/>
+            <span th:text="#{login.rememberme}">Remember me</span>
         </div>
 
         <input type="submit" id="login" th:value="#{login.signin}" class="btn btn-primary"/>

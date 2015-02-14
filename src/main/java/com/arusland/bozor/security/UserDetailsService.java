@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,8 +30,8 @@ public class UserDetailsService implements org.springframework.security.core.use
         if (SecurityConstants.ADMIN_USER_NAME.equals(lowercaseLogin)) {
             List<GrantedAuthority> grantedAuthorities = new LinkedList<>();
 
-            grantedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
-            grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
             return new org.springframework.security.core.userdetails.User(lowercaseLogin,
                     adminPassword,
