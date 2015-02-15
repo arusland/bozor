@@ -8,38 +8,46 @@
     <link rel="stylesheet" type="text/css" media="all"
           href="../../stylesheets/main.css" th:href="@{/css/main.css}"/>
     <link href="#" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen" />
+          rel="stylesheet" media="screen"/>
 </head>
 <body>
 <div id="main">
     <table class="table table-condensed mobile">
         <tr>
             <th>Name</th>
-            <th class="operation-cell">Operation</th>
+            <th class="operation-cell">Buy</th>
             <th th:if="${showComments}">Amount</th>
             <th th:if="${showComments}">Comment</th>
+            <th class="operation-cell">Delete</th>
         </tr>
         <tr th:each="prod : ${items}">
             <td><span th:class="'bought-' + ${prod.bought}" th:text="${prod.name}">Onions</span></td>
             <td class="operation-cell">
-                <a class="btn btn-lg btn-primary" th:if="${prod.isBought() == false}" th:href="@{'/buy/' + ${prod.id}}" th:text="#{mobile.buy}">Buy</a>
+                <a class="btn btn-lg btn-primary" th:if="${prod.isBought() == false}" th:href="@{'/buy/' + ${prod.id}}"
+                   th:text="#{mobile.buy}">Buy</a>
                 <span th:if="${prod.isBought() == true}" th:text="#{mobile.bought}"></span>
             </td>
             <td th:text="${prod.amount}" th:if="${showComments}">12</td>
             <td th:text="${prod.comment}" th:if="${showComments}">12</td>
+            <td class="operation-cell">
+                <a class="btn btn-danger" th:href="@{'/remove/' + ${prod.id}}">X</a>
+            </td>
         </tr>
     </table>
 
-    <form action="/m" method="get">
-        <input type="text" th:value="${searchText}"/>
-        <input type="submit" th:value="#{global.search}"/>
-    </form>
+    <hr/>
 
-    <table>
+    <form action="/m" method="get" class="form-inline">
+        <input type="text" name="s" th:value="${searchText}" class="form-control"/>
+        <button type="submit" th:text="#{global.search}" class="btn btn-primary"/>
+    </form>
+    <br/>
+
+    <table class="table table-condensed mobile" th:if="${foundProducts}">
         <tr th:each="prod : ${foundProducts}">
             <td th:text="${prod.name}">name</td>
             <td>
-                <a class="btn btn-lg btn-primary" th:href="@{'/add/' + ${prod.id}}" th:text="#{mobile.add}">Add</a>
+                <a class="btn btn-success" th:href="@{'/add/' + ${prod.id}}" th:text="#{mobile.add}">Add</a>
             </td>
         </tr>
     </table>

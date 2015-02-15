@@ -24,11 +24,11 @@ public class SearchProductComparator implements Comparator<Product> {
 
         if (start1) {
             if (!start2) {
-                return 1;
+                return -1;
             }
         } else {
             if (start2) {
-                return -1;
+                return 1;
             }
         }
 

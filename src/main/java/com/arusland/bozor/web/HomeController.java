@@ -52,10 +52,13 @@ public class HomeController {
         model.put("items", items);
         model.put("showComments", hasComments(items));
 
-        if (StringUtils.isNotBlank(searchText)){
+        if (StringUtils.isNotBlank(searchText)) {
             List<ProductDto> products = service.searchProducts(searchText);
 
-            model.put("foundProducts", products);
+            if (!products.isEmpty()) {
+                model.put("foundProducts", products);
+            }
+            model.put("searchText", searchText);
         }
 
         return "mobile";
@@ -64,6 +67,20 @@ public class HomeController {
     @RequestMapping("/buy/{id}")
     public String mobileBuyItem(@PathVariable Long id) {
         service.buyItem(id);
+
+        return "redirect:/m";
+    }
+
+    @RequestMapping("/add/{id}")
+    public String addItem(@PathVariable Long id) {
+        service.addItem(id);
+
+        return "redirect:/m";
+    }
+
+    @RequestMapping("/remove/{id}")
+    public String removeItem(@PathVariable Long id) {
+        service.removeProductItem(id);
 
         return "redirect:/m";
     }

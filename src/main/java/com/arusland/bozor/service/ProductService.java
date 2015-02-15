@@ -35,4 +35,6 @@ public interface ProductService {
     ProductItemDto buyItem(Long id);
 
     List<ProductDto> searchProducts(String searchText);
+
+    ProductItemDto addItem(Long productId);
 }

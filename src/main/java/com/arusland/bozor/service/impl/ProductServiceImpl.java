@@ -143,11 +143,28 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional(readOnly = true)
     public List<ProductDto> searchProducts(String searchText) {
-        List<Product> products = productRepository.searchByName("%" + searchText + "%");
+        List<Product> products = productRepository.searchByName(searchText);
 
         Collections.sort(products, new SearchProductComparator(searchText));
 
         return ProductDto.fromList(products, false);
+    }
+
+    @Override
+    @Transactional
+    public ProductItemDto addItem(Long productId) {
+        Product product = productRepository.getOne(productId);
+
+        if (product != null) {
+            statusManager.modifyItems();
+            ProductItem item = new ProductItem();
+            item.setProduct(product);
+            item = productItemRepository.saveAndFlush(item);
+
+            return ProductItemDto.fromItem(item);
+        }
+
+        throw new IllegalStateException("Product not found: " + productId);
     }
 
     private static void setItemBought(ProductItem item) {
