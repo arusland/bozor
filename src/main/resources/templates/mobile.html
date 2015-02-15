@@ -29,6 +29,20 @@
             <td th:text="${prod.comment}" th:if="${showComments}">12</td>
         </tr>
     </table>
+
+    <form action="/m" method="get">
+        <input type="text" th:value="${searchText}"/>
+        <input type="submit" th:value="#{global.search}"/>
+    </form>
+
+    <table>
+        <tr th:each="prod : ${foundProducts}">
+            <td th:text="${prod.name}">name</td>
+            <td>
+                <a class="btn btn-lg btn-primary" th:href="@{'/add/' + ${prod.id}}" th:text="#{mobile.add}">Add</a>
+            </td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>

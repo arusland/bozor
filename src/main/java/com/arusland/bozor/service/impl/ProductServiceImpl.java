@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -136,6 +138,16 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return ProductItemDto.fromItem(item);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ProductDto> searchProducts(String searchText) {
+        List<Product> products = productRepository.searchByName("%" + searchText + "%");
+
+        Collections.sort(products, new SearchProductComparator(searchText));
+
+        return ProductDto.fromList(products, false);
     }
 
     private static void setItemBought(ProductItem item) {

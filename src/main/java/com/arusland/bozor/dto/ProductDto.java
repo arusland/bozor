@@ -67,7 +67,7 @@ public class ProductDto {
         return dto;
     }
 
-    public static List<ProductDto> fromList(List<Product> products) {
+    public static List<ProductDto> fromList(List<Product> products, boolean sort) {
         if (products == null) {
             return null;
         }
@@ -78,7 +78,7 @@ public class ProductDto {
             result.add(fromProduct(product));
         }
 
-        return sort(result);
+        return sort ? sort(result) : result;
     }
 
     private static List<ProductDto> sort(List<ProductDto> list) {

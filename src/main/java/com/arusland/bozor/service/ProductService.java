@@ -33,4 +33,6 @@ public interface ProductService {
     List<ProductType> getProductTypes();
 
     ProductItemDto buyItem(Long id);
+
+    List<ProductDto> searchProducts(String searchText);
 }

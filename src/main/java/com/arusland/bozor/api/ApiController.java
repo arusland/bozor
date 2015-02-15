@@ -49,7 +49,7 @@ public class ApiController {
             List<Product> products = statusResult.hasNewProducts ? service.getProducts() : null;
 
             status = new Status(statusResult.token, ProductItemDto.fromList(items),
-                    ProductDto.fromList(products));
+                    ProductDto.fromList(products, true));
         } else {
             status = new Status(statusResult.token);
         }
@@ -141,7 +141,7 @@ public class ApiController {
     @ResponseBody
     @RequestMapping("/products")
     public List<ProductDto> getProducts() {
-        return ProductDto.fromList(service.getProducts());
+        return ProductDto.fromList(service.getProducts(), true);
     }
 
     @ResponseBody
