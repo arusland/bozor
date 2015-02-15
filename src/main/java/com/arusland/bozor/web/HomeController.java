@@ -2,7 +2,9 @@ package com.arusland.bozor.web;
 
 import com.arusland.bozor.dto.ProductDto;
 import com.arusland.bozor.dto.ProductItemDto;
+import com.arusland.bozor.service.EncodingSupportProvider;
 import com.arusland.bozor.service.ProductService;
+import com.arusland.bozor.util.EncodingUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -18,10 +21,13 @@ import java.util.*;
 @Controller
 public class HomeController {
     private final ProductService service;
+    private final EncodingSupportProvider encodingSupportProvider;
+
 
     @Autowired
-    public HomeController(ProductService service) {
+    public HomeController(ProductService service, EncodingSupportProvider encodingSupportProvider) {
         this.service = service;
+        this.encodingSupportProvider = encodingSupportProvider;
     }
 
     @RequestMapping("/")
@@ -47,6 +53,7 @@ public class HomeController {
     @RequestMapping("/m")
     public String mobile(@RequestParam(value = "s", required = false) String searchText, Map<String, Object> model) {
         // TODO: provide client timezone offset
+        searchText = encodingSupportProvider.normalize(searchText);
         int timeOffset = 0;
         List<ProductItemDto> items = ProductItemDto.fromList(service.getProductItems(new Date(), true, timeOffset));
         model.put("items", items);
