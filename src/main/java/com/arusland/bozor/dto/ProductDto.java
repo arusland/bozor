@@ -1,6 +1,7 @@
 package com.arusland.bozor.dto;
 
 import com.arusland.bozor.domain.Product;
+import org.apache.commons.lang3.Validate;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,6 +14,12 @@ public class ProductDto {
     private Long typeId;
 
     public ProductDto() {
+    }
+
+    public ProductDto(String name) {
+        Validate.notBlank(name);
+
+        this.name = name;
     }
 
     public String getName() {

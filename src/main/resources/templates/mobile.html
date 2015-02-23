@@ -43,6 +43,12 @@
     </form>
     <br/>
 
+    <form action="m" method="post" class="form-inline" th:if="${searchText}">
+        <input type="text" name="name" th:value="${searchText}" class="form-control"/>
+        <button type="submit" th:text="#{global.create}" class="btn btn-success"/>
+    </form>
+    <br/>
+
     <table class="table table-condensed mobile" th:if="${foundProducts}">
         <tr th:each="prod : ${foundProducts}">
             <td th:text="${prod.name}">name</td>
@@ -51,6 +57,8 @@
             </td>
         </tr>
     </table>
+
+    <div class="alert alert-warning" role="alert" th:if="${searchText}" th:unless="${foundProducts}" th:text="#{message.products.not.found}"></div>
 </div>
 </body>
 </html>

@@ -167,6 +167,20 @@ public class ProductServiceImpl implements ProductService {
         throw new IllegalStateException("Product not found: " + productId);
     }
 
+    @Override
+    @Transactional
+    public ProductItemDto addItem(String productName) {
+        productName = productName.toLowerCase();
+        Product product = productRepository.findByName(productName);
+
+        if (product == null){
+            // product not found, create it
+            product = save(new ProductDto(productName));
+        }
+
+        return addItem(product.getId());
+    }
+
     private static void setItemBought(ProductItem item) {
         item.setDate(DateUtils.toUTCTime(new Date()));
     }

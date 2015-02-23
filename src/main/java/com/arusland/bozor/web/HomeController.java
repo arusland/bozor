@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,6 +70,17 @@ public class HomeController {
         }
 
         return "mobile";
+    }
+
+    @RequestMapping(value = "/m", method = RequestMethod.POST)
+    public String mobilePost(@RequestParam String name, Map<String, Object> model){
+        if (StringUtils.isNotBlank(name)){
+            name = encodingSupportProvider.normalize(name).trim().toLowerCase();
+
+            service.addItem(name);
+        }
+
+        return mobile(null, model);
     }
 
     @RequestMapping("/buy/{id}")
