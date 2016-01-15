@@ -26,7 +26,7 @@ Shopping list &amp; personal budget
 * Mozilla Rhino
 
 ## Screenshots
-![Screenshot1](https://raw.githubusercontent.com/arusland/arusland.github.io/master/projects/bozor/screenshot1.jpg)
+![Screenshot1](https://github.com/arusland/bozor/blob/master/images/screenshot1.jpg?raw=true)
 [All screenshots](https://github.com/arusland/bozor/blob/master/SCREENSHOTS.md)
 
 
